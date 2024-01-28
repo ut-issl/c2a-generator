@@ -1,0 +1,4 @@
+[tlm]
+src_path="./tmp/"
+dest_path="./tmp2/"
+src_prefix="ISSL6U_MOBC_TLM_DB_"
