@@ -3,6 +3,7 @@ from pathlib import Path
 
 
 def generate(src_path: Path, dest_path: Path) -> None:
+    assert dest_path.parent.exists(), f"{dest_path} does not exist"
     with open(src_path, "r", encoding="utf-8") as csv_file, open(dest_path, "w", encoding="utf-8") as header_file:
         header_file.write(
             """

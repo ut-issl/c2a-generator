@@ -3,6 +3,7 @@ from pathlib import Path
 
 
 def generate(src_path: Path, dest_path: Path) -> None:
+    assert dest_path.parent.exists(), f"{dest_path} does not exist"
     conv_type_to_size = {
         "int8_t": "CA_PARAM_SIZE_TYPE_1BYTE",
         "int16_t": "CA_PARAM_SIZE_TYPE_2BYTE",
