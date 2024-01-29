@@ -7,6 +7,9 @@ tlm_src="../tlm/ong_mobc/"
 cmd_src="../cmd/ong_mobc.csv"
 bct_src="../bct/ong_mobc.csv"
 tlm_id_range=["0x00", "0x100"]
+tlm_wings_dest="./../wings_data/tlm/"
+cmd_wings_dest="./../wings_data/cmd/ISSL6U_MOBC_CMD_DB_CMD_DB.csv"
+bct_wings_dest="./../wings_data/bct/ISSL6U_MOBC_CMD_DB_BCT.csv"
 
 [[obc]]
 is_main_obc=false

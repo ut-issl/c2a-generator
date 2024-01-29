@@ -2,6 +2,7 @@ from pathlib import Path
 
 import c2a
 import toml
+# from load import load_cmd
 
 root_path = Path(__file__).parent.parent
 toml_path = root_path / "c2a_generator_config.toml"
@@ -19,6 +20,9 @@ def main() -> None:
             c2a.cmd_def_c.generate(root_path / obc["cmd_src"], c2a_user_path / "TlmCmd/command_definitions.c")
             c2a.tlm_def_h.generate(root_path / obc["tlm_src"], c2a_user_path / "TlmCmd/telemetry_definitions.h")
             c2a.tlm_def_c.generate(root_path / obc["tlm_src"], c2a_user_path / "TlmCmd/telemetry_definitions.c")
+            c2a.cmd_csv.generate(root_path / obc["cmd_src"], root_path / obc["cmd_wings_dest"])
+            c2a.bct_csv.generate(root_path / obc["bct_src"], root_path / obc["bct_wings_dest"])
+            c2a.tlm_csv.generate(root_path / obc["tlm_src"], root_path / obc["tlm_wings_dest"], obc["tlm_prefix"])
         elif obc.get("is_enable"):
             key_list = ["driver_path", "name", "driver_type", "driver_name", "max_tlm_num", "code_when_tlm_not_found"]
             for key in key_list:
@@ -54,7 +58,6 @@ def main() -> None:
                 c2a_user_path / "Driver" / obc["driver_path"] / f"{obc['name'].lower()}_telemetry_data_definitions.h",
                 obc["name"].upper(),
             )
-
 
 if __name__ == "__main__":
     main()
