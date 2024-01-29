@@ -2,7 +2,7 @@ from pathlib import Path
 
 import c2a
 import toml
-# from load import load_cmd
+from load import load_cmd
 
 root_path = Path(__file__).parent.parent
 toml_path = root_path / "c2a_generator_config.toml"
