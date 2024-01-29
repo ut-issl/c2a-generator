@@ -1,0 +1,22 @@
+c2a_user_root="tmp"
+
+[[obc]]
+is_main_obc=true
+tlm_prefix="ISSL6U_MOBC_TLM_DB_"
+tlm_src="../tlm/ong_mobc/"
+cmd_src="../cmd/ong_mobc.csv"
+bct_src="../bct/ong_mobc.csv"
+tlm_id_range=["0x00", "0x100"]
+
+[[obc]]
+is_main_obc=false
+is_enable=true
+name="AOBC"
+tlm_src="../tlm/ong_aobc/"
+cmd_src="../cmd/ong_mobc.csv"
+max_tlm_num=256
+driver_path="Aocs"
+driver_type="AOBC_Driver"
+driver_name="aobc_driver"
+code_when_tlm_not_found="aobc_driver->info.comm.rx_err_code = AOBC_RX_ERR_CODE_TLM_NOT_FOUND;"
+tlm_id_range=["0x00", "0xff"]

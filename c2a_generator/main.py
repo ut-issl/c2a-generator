@@ -1,32 +1,59 @@
-import argparse
 from pathlib import Path
 
 import c2a
 import toml
 
-# generate_bct_def, generate_cmd_def_c, generate_cmd_def_h, generate_tlm_def_c, generate_tlm_def_h
-
 root_path = Path(__file__).parent.parent
-toml_path = root_path / "config.toml"
+toml_path = root_path / "c2a_generator_config.toml"
 config = toml.load(toml_path)
 assert config.get("obc") is not None, "obc is not defined in config.toml"
+assert config.get("c2a_user_root") is not None, "c2a_root is not defined in config.toml"
+c2a_user_path = root_path / config["c2a_user_root"]
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Python Script with --subobc option")
-    parser.add_argument("--subobc", type=bool, default=False, help="Specify True or False for --subobc option")
-    args = parser.parse_args()
-
     for obc in config["obc"]:
         if obc.get("is_main_obc"):
-            c2a.bct_def.generate(root_path / obc["bct_src"], root_path / obc["bct_dest"])
-            c2a.cmd_def_h.generate(root_path / obc["cmd_src"], root_path / obc["cmd_dest_h"])
-            c2a.cmd_def_c.generate(root_path / obc["cmd_src"], root_path / obc["cmd_dest_c"])
-            c2a.tlm_def_h.generate(root_path / obc["tlm_src"], root_path / obc["tlm_dest_h"])
-            c2a.tlm_def_c.generate(root_path / obc["tlm_src"], root_path / obc["tlm_dest_c"])
-
-        if (not obc.get("is_main_obc")) and args.subobc:
-            print("Hogehoge")
+            c2a.bct_def_h.generate(root_path / obc["bct_src"], c2a_user_path / "TlmCmd/block_command_definitions.h")
+            c2a.cmd_def_h.generate(root_path / obc["cmd_src"], c2a_user_path / "TlmCmd/command_definitions.h")
+            c2a.cmd_def_c.generate(root_path / obc["cmd_src"], c2a_user_path / "TlmCmd/command_definitions.c")
+            c2a.tlm_def_h.generate(root_path / obc["tlm_src"], c2a_user_path / "TlmCmd/telemetry_definitions.h")
+            c2a.tlm_def_c.generate(root_path / obc["tlm_src"], c2a_user_path / "TlmCmd/telemetry_definitions.c")
+        elif obc.get("is_enable"):
+            key_list = ["driver_path", "name", "driver_type", "driver_name", "max_tlm_num", "code_when_tlm_not_found"]
+            for key in key_list:
+                assert obc.get(key) is not None, f"{key} is not defined in config.toml"
+            c2a.subobc_cmd_def_h.generate(
+                root_path / obc["cmd_src"],
+                c2a_user_path / "Driver" / obc["driver_path"] / f"{obc['name'].lower()}_command_definitions.h",
+                obc["name"].upper(),
+            )
+            c2a.subobc_tlm_def_h.generate(
+                root_path / obc["tlm_src"],
+                c2a_user_path / "Driver" / obc["driver_path"] / f"{obc['name'].lower()}_telemetry_definitions.h",
+                obc["name"].upper(),
+            )
+            c2a.subobc_tlm_buf_c.generate(
+                root_path / obc["tlm_src"],
+                c2a_user_path / "Driver" / obc["driver_path"] / f"{obc['name'].lower()}_telemetry_buffer.c",
+                obc["name"].upper(),
+                obc["driver_type"],
+                obc["driver_name"],
+                obc["code_when_tlm_not_found"],
+            )
+            c2a.subobc_tlm_buf_h.generate(
+                root_path / obc["tlm_src"],
+                c2a_user_path / "Driver" / obc["driver_path"] / f"{obc['name'].lower()}_telemetry_buffer.h",
+                obc["name"].upper(),
+                obc["driver_type"],
+                obc["driver_name"],
+                obc["max_tlm_num"],
+            )
+            c2a.subobc_tlm_data_def_h.generate(
+                root_path / obc["tlm_src"],
+                c2a_user_path / "Driver" / obc["driver_path"] / f"{obc['name'].lower()}_telemetry_data_definitions.h",
+                obc["name"].upper(),
+            )
 
 
 if __name__ == "__main__":
