@@ -1,23 +1,23 @@
-import toml
-from pathlib import Path
 import csv
-import os
 import logging
+from pathlib import Path
+
+import toml
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 handler = logging.StreamHandler()
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
-def transform_csv(src_path, dest_path):
-    with open(src_path, 'r', encoding='utf-8') as src_file, \
-         open(dest_path, 'w', encoding='utf-8', newline='') as dest_file:
+
+def transform_csv(src_path: Path, dest_path: Path) -> None:
+    with open(src_path, "r", encoding="utf-8") as src_file, open(dest_path, "w", encoding="utf-8", newline="") as dest_file:
         reader = csv.reader(src_file)
         writer = csv.writer(dest_file)
 
-        first_row_component = ["", "", "", ""]
+        first_row_component = ["", 0, "", ""]
         first_row_component[2] = next(reader)[2]
         data = next(reader)
         first_row_component[1] = int(data[2], 16)
@@ -26,7 +26,7 @@ def transform_csv(src_path, dest_path):
         writer.writerow(first_row_component)
         for i in range(5):
             next(reader)
-        writer.writerow(['name', 'type', 'bit', 'var', 'conv', 'a0', 'a1', 'a2', 'a3', 'a4', 'a5', 'status', 'description', 'note'])
+        writer.writerow(["name", "type", "bit", "var", "conv", "a0", "a1", "a2", "a3", "a4", "a5", "status", "description", "note"])
         for row in reader:
             if not any(row):  # 空行をスキップ
                 continue
@@ -44,36 +44,38 @@ def transform_csv(src_path, dest_path):
                     type_ = ""
                 else:
                     type_ = row[2]
-            var = row[3].replace("@@", ",") if row[3] and row[3] != "||" else ''
-            conv = row[8] if row[8] else ''
+            var = row[3].replace("@@", ",") if row[3] and row[3] != "||" else ""
+            conv = row[8] if row[8] else ""
             a0, a1, a2, a3, a4, a5 = row[9:15]
-            status = row[15].replace("@@", ",") if row[15] else ''
-            description = row[16].replace("@@", ",") if row[16] else ''
-            note = row[17].replace("@@", ",") if row[17] else ''
+            status = row[15].replace("@@", ",") if row[15] else ""
+            description = row[16].replace("@@", ",") if row[16] else ""
+            note = row[17].replace("@@", ",") if row[17] else ""
 
             writer.writerow([name, type_, bit, var, conv, a0, a1, a2, a3, a4, a5, status, description, note])
 
-def main():
-    config_path = Path(__file__).parent.parent / 'csv_converter_config.toml'
+
+def main() -> None:
+    config_path = Path(__file__).parent.parent / "csv_converter_config.toml"
     config = toml.load(config_path)
     assert config.get("tlm") is not None, "tlm section is not defined in csv_converter_config.toml"
-    config = config.get("tlm")
-    assert config.get('src_path') is not None, "src_path is not defined in csv_converter_config.toml"
-    assert config.get('dest_path') is not None, "dest_path is not defined in csv_converter_config.toml"
-    assert config.get('src_prefix') is not None, "src_prefix is not defined in csv_converter_config.toml"
+    config = config.get("tlm", {})
+    assert config.get("src_path") is not None, "src_path is not defined in csv_converter_config.toml"
+    assert config.get("dest_path") is not None, "dest_path is not defined in csv_converter_config.toml"
+    assert config.get("src_prefix") is not None, "src_prefix is not defined in csv_converter_config.toml"
 
-    src_path = Path(config['src_path'])
-    dest_path = Path(config['dest_path'])
-    src_prefix = config['src_prefix']
+    src_path = Path(config["src_path"])
+    dest_path = Path(config["dest_path"])
+    src_prefix = config["src_prefix"]
 
     if not dest_path.exists():
         logger.info(f"Destination path {dest_path} does not exist. Creating...")
         dest_path.mkdir(parents=True)
 
-    for src_file in src_path.glob(src_prefix + '*.csv'):
-        dest_file = dest_path / src_file.name.replace(src_prefix, '')
+    for src_file in src_path.glob(src_prefix + "*.csv"):
+        dest_file = dest_path / src_file.name.replace(src_prefix, "")
         transform_csv(src_file, dest_file)
         logger.info(f"File {src_file.name} has been processed and saved to {dest_file}")
+
 
 if __name__ == "__main__":
     main()
