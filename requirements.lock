@@ -8,3 +8,4 @@
 
 -e file:.
 toml==0.10.2
+types-toml==0.10.8.7

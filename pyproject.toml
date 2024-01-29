@@ -7,6 +7,7 @@ authors = [
 ]
 dependencies = [
     "toml>=0.10.2",
+    "types-toml>=0.10.8.7",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"
@@ -17,10 +18,41 @@ build-backend = "hatchling.build"
 
 [tool.rye]
 managed = true
-dev-dependencies = []
+dev-dependencies = [
+    "black>=24.1.1",
+    "isort>=5.13.2",
+    "pyproject-flake8>=5.0.4.post1",
+    "flake8-annotations>=2.9.1",
+    "pep8-naming>=0.13.3",
+    "mypy>=1.8.0",
+    "pytest>=8.0.0",
+]
 
 [tool.hatch.metadata]
 allow-direct-references = true
 
 [tool.hatch.build.targets.wheel]
-packages = ["src"]
+packages = ["c2a_generator", "csv_converter"]
+
+[tool.black]
+line-length = 150
+
+[tool.isort]
+line_length = 150
+multi_line_output = 3
+include_trailing_comma = true
+use_parentheses = true
+
+[tool.mypy-generator]
+ignore_missing_imports = true
+
+[tool.flake8]
+max-line-length = 150
+ignore = ["E203", "E501", "W503", "W504"] # blackとconflictする設定
+
+[tool.rye.scripts]
+format-c2a = { chain = ["black c2a_generator", "isort c2a_generator"] }
+format-csv = { chain = ["black csv_converter", "isort csv_converter"] }
+lint-c2a = { chain = ["black --check c2a_generator", "isort -c -v c2a_generator", "pflake8 c2a_generator", "mypy c2a_generator"] }
+lint-csv = { chain = ["black --check csv_converter", "isort -c -v csv_converter", "pflake8 csv_converter", "mypy csv_converter"] }
+# test = { chain = ["python -m pytest tests"] }
