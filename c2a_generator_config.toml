@@ -14,9 +14,9 @@ is_enable=true
 name="AOBC"
 tlm_src="../tlm/ong_aobc/"
 cmd_src="../cmd/ong_mobc.csv"
-tlm_id_range=["0x00", "0xff"]
 max_tlm_num=256
 driver_path="Aocs"
 driver_type="AOBC_Driver"
 driver_name="aobc_driver"
 code_when_tlm_not_found="aobc_driver->info.comm.rx_err_code = AOBC_RX_ERR_CODE_TLM_NOT_FOUND;"
+tlm_id_range=["0x00", "0xff"]
