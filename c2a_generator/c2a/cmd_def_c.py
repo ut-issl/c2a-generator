@@ -40,19 +40,20 @@ void CA_load_cmd_table(CA_CmdInfo cmd_table[CA_MAX_CMDS])
         )
         reader = csv.reader(csv_file)
         param_info = ""
-        next(reader)
-        for row in reader:
+        headers = next(reader)
+        dict_reader = csv.DictReader(csv_file, fieldnames=headers)
+        for row in dict_reader:
             if not any(row):
                 continue
-            if row[0]:
-                header_file.write(f"  cmd_table[Cmd_CODE_{row[2]}].cmd_func = Cmd_{row[2]};\n")
-                for i, param in enumerate(row[4:16:2]):
+            if row["code"]:
+                header_file.write(f"  cmd_table[Cmd_CODE_{row['name']}].cmd_func = Cmd_{row['name']};\n")
+                param_headers = ["param1_type", "param2_type", "param3_type", "param4_type", "param5_type", "param6_type"]
+                for i, param_header in enumerate(param_headers):
+                    param = row[param_header]
                     if param != "":
                         index = i // 2
                         subindex = "second" if i % 2 else "first"
-                        param_info += (
-                            f"  cmd_table[Cmd_CODE_{row[2]}].param_size_infos[{index}].packed_info.bit.{subindex} = {conv_type_to_size[param]};\n"
-                        )
+                        param_info += f"  cmd_table[Cmd_CODE_{row['name']}].param_size_infos[{index}].packed_info.bit.{subindex} = {conv_type_to_size[param]};\n"
         header_file.write(f"\n{param_info}")
         header_file.write(
             """
