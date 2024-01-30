@@ -28,19 +28,20 @@ typedef enum
             ]
         )
         reader = csv.reader(csv_file)
-        next(reader)
+        headers = next(reader)
+        dict_reader = csv.DictReader(csv_file, fieldnames=headers)
         previous_line_was_comment = False
-        for row in reader:
+        for row in dict_reader:
             if not any(row):
                 continue
-            if row[0]:
+            if row["bcid"]:
                 previous_line_was_comment = False
-                comment = f"    // {row[2]}" if len(row) > 2 and row[2] else ""
-                header_file.write(f"  {row[1]} = {row[0]},{comment}\n")
+                comment = f"    // {row['description']}" if len(row) > 2 and row["description"] else ""
+                header_file.write(f"  {row['name']},{comment}\n")
             else:
                 if not previous_line_was_comment:
                     header_file.write("\n")
-                header_file.write(f"  // {row[1]}\n")
+                header_file.write(f"  // {row['name']}\n")
                 previous_line_was_comment = True
         header_file.write(
             """

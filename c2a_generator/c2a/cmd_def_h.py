@@ -26,18 +26,20 @@ typedef enum
             ]
         )
         reader = csv.reader(csv_file)
-        next(reader)
-        for row in reader:
+        param_info = ""
+        headers = next(reader)
+        dict_reader = csv.DictReader(csv_file, fieldnames=headers)
+        for row in dict_reader:
             if not any(row):
                 continue
-            if row[0]:
+            if row["code"]:
                 try:
-                    row[0] = f"0x{int(row[0]):04X}"
+                    row["code"] = f'0x{int(row["code"]):04X}'
                 except ValueError:
                     continue
                 # comment = f"    // {row[16]}" if len(row) > 2 and row[16] else ""
                 comment = ""
-                header_file.write(f"  Cmd_CODE_{row[2]} = {row[0]},{comment}\n")
+                header_file.write(f'  Cmd_CODE_{row["name"]} = {row["code"]},{comment}\n')
         header_file.write(
             """
   Cmd_CODE_MAX
