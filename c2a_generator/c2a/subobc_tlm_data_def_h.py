@@ -3,6 +3,8 @@ import sys
 from pathlib import Path
 from typing import Union
 
+from .util import get_git_file_blob_url
+
 INVALID_START_CHARS = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 
@@ -44,6 +46,7 @@ def generate_struct_definition(struct_tree: dict, struct_name: str, indent: int 
 
 
 def generate(src_path: Path, dest_path: Path, obc_name: str) -> None:
+    file_blob_url = get_git_file_blob_url(src_path)
     assert dest_path.parent.exists(), f"{dest_path} does not exist"
     with open(dest_path, "w", encoding="utf-8") as dest_file:
         dest_file.write(
@@ -52,6 +55,7 @@ def generate(src_path: Path, dest_path: Path, obc_name: str) -> None:
  * @file
  * @brief  バッファリングされているテレメをパースしてMOBC内でかんたんに利用できるようにするためのテレメデータ構造体定義
  * @note   このコードは自動生成されています！
+ * @src    {file_blob_url}
  */
 #ifndef {obc_name}_TELEMETRY_DATA_DEFINITIONS_H_
 #define {obc_name}_TELEMETRY_DATA_DEFINITIONS_H_

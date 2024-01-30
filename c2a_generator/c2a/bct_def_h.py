@@ -1,23 +1,28 @@
 import csv
 from pathlib import Path
 
+from .util import get_git_file_blob_url
 
-def generate(src_path: Path, dest_path: Path) -> None:
+
+def generate(src_path: str, dest_path: Path) -> None:
+    file_blob_url = get_git_file_blob_url(src_path)
     assert dest_path.parent.exists(), f"{dest_path} does not exist"
+
     with open(src_path, "r", encoding="utf-8") as csv_file, open(dest_path, "w", encoding="utf-8") as header_file:
         header_file.write(
-            """
+            f"""
 /**
  * @file
  * @brief  ブロックコマンド定義
  * @note   このコードは自動生成されています！
+ * @src    {file_blob_url}
  */
 #ifndef BLOCK_COMMAND_DEFINITIONS_H_
 #define BLOCK_COMMAND_DEFINITIONS_H_
 
 // 登録されるBlockCommandTableのblock番号を規定
 typedef enum
-{
+{{
 """[
                 1:
             ]

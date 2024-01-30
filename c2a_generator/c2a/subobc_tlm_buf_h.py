@@ -1,7 +1,10 @@
 from pathlib import Path
 
+from .util import get_git_file_blob_url
+
 
 def generate(src_path: Path, dest_path: Path, obc_name: str, driver_type: str, driver_name: str, max_tlm_num: int) -> None:
+    file_blob_url = get_git_file_blob_url(src_path)
     assert dest_path.parent.exists(), f"{dest_path} does not exist"
     with open(dest_path, "w", encoding="utf-8") as header_file:
         header_file.write(
@@ -10,6 +13,7 @@ def generate(src_path: Path, dest_path: Path, obc_name: str, driver_type: str, d
  * @file
  * @brief  テレメトリバッファー（テレメ中継）
  * @note   このコードは自動生成されています！
+ * @src    {file_blob_url}
  */
 #ifndef {obc_name}_TELEMETRY_BUFFER_H_
 #define {obc_name}_TELEMETRY_BUFFER_H_

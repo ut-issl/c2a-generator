@@ -2,6 +2,8 @@ import csv
 from pathlib import Path
 from typing import List, Union
 
+from .util import get_git_file_blob_url
+
 
 def generate_bit_operation(variables: list, result_type: str = "uint8_t") -> str:
     if len(variables) == 1:
@@ -27,15 +29,17 @@ def generate_bit_operation(variables: list, result_type: str = "uint8_t") -> str
 
 
 def generate(src_path: Path, dest_path: Path) -> None:
+    file_blob_url = get_git_file_blob_url(src_path)
     assert dest_path.parent.exists(), f"{dest_path} does not exist"
     with open(dest_path, "w", encoding="utf-8") as header_file:
         header_file.write(
-            """
+            f"""
 #pragma section REPRO
 /**
  * @file
  * @brief  テレメトリ定義
  * @note   このコードは自動生成されています！
+ * @src    {file_blob_url}
  */
 #include <src_core/TlmCmd/telemetry_frame.h>
 #include "telemetry_definitions.h"
