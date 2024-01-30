@@ -1,22 +1,25 @@
 import csv
 from pathlib import Path
 
+from .util import get_git_file_blob_url
 
-def generate(src_path: Path, dest_path: Path) -> None:
-    assert dest_path.parent.exists(), f"{dest_path} does not exist"
+
+def generate(src_path: str, dest_path: Path) -> None:
+    file_blob_url = get_git_file_blob_url(src_path)
     with open(dest_path, "w", encoding="utf-8") as header_file:
         header_file.write(
-            """
+            f"""
 /**
  * @file
  * @brief  テレメトリ定義
  * @note   このコードは自動生成されています！
+ * @src    {file_blob_url}
  */
 #ifndef TELEMETRY_DEFINITIONS_H_
 #define TELEMETRY_DEFINITIONS_H_
 
 typedef enum
-{
+{{
 """[
                 1:
             ]
