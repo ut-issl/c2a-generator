@@ -26,7 +26,9 @@ def transform_csv(src_path: Path, dest_path: Path) -> None:
         writer.writerow(first_row_component)
         for i in range(5):
             next(reader)
-        writer.writerow(["name", "type", "bit", "var", "conv", "a0", "a1", "a2", "a3", "a4", "a5", "status", "description", "note"])
+        writer.writerow(
+            ["subsystem", "name", "type", "bit", "var", "conv", "a0", "a1", "a2", "a3", "a4", "a5", "status", "description", "note", "priority"]
+        )
         for row in reader:
             if not any(row):  # 空行をスキップ
                 continue
@@ -51,7 +53,7 @@ def transform_csv(src_path: Path, dest_path: Path) -> None:
             description = row[16].replace("@@", ",") if row[16] else ""
             note = row[17].replace("@@", ",") if row[17] else ""
 
-            writer.writerow([name, type_, bit, var, conv, a0, a1, a2, a3, a4, a5, status, description, note])
+            writer.writerow(["", name, type_, bit, var, conv, a0, a1, a2, a3, a4, a5, status, description, note, ""])
 
 
 def main() -> None:
