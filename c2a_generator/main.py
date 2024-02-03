@@ -1,3 +1,4 @@
+import argparse
 from pathlib import Path
 
 import c2a
@@ -11,7 +12,7 @@ assert config.get("c2a_user_root") is not None, "c2a_root is not defined in conf
 c2a_user_path = root_path / config["c2a_user_root"]
 
 
-def main() -> None:
+def main(export_wings: bool = False) -> None:
     for obc in config["obc"]:
         if obc.get("is_main_obc"):
             c2a.bct_def_h.generate(root_path / obc["bct_src"], c2a_user_path / "TlmCmd/block_command_definitions.h")
@@ -19,9 +20,10 @@ def main() -> None:
             c2a.cmd_def_c.generate(root_path / obc["cmd_src"], c2a_user_path / "TlmCmd/command_definitions.c")
             c2a.tlm_def_h.generate(root_path / obc["tlm_src"], c2a_user_path / "TlmCmd/telemetry_definitions.h")
             c2a.tlm_def_c.generate(root_path / obc["tlm_src"], c2a_user_path / "TlmCmd/telemetry_definitions.c")
-            c2a.cmd_csv.generate(root_path / obc["cmd_src"], root_path / obc["cmd_wings_dest"])
-            c2a.bct_csv.generate(root_path / obc["bct_src"], root_path / obc["bct_wings_dest"])
-            c2a.tlm_csv.generate(root_path / obc["tlm_src"], root_path / obc["tlm_wings_dest"], obc["tlm_prefix"])
+            if export_wings:
+                c2a.cmd_csv.generate(root_path / obc["cmd_src"], root_path / obc["cmd_wings_dest"])
+                c2a.bct_csv.generate(root_path / obc["bct_src"], root_path / obc["bct_wings_dest"])
+                c2a.tlm_csv.generate(root_path / obc["tlm_src"], root_path / obc["tlm_wings_dest"], obc["tlm_prefix"])
         elif obc.get("is_enable"):
             key_list = ["driver_path", "name", "driver_type", "driver_name", "max_tlm_num", "code_when_tlm_not_found"]
             for key in key_list:
@@ -58,5 +60,10 @@ def main() -> None:
                 obc["name"].upper(),
             )
 
+
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--wings", action="store_true", default=False, help="Perform special processing when --wings is specified")
+    args = parser.parse_args()
+
+    main(args.wings)
