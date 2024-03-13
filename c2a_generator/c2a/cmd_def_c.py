@@ -45,7 +45,7 @@ void CA_load_cmd_table(CA_CmdInfo cmd_table[CA_MAX_CMDS])
         for row in dict_reader:
             if not any(row):
                 continue
-            if row["code"]:
+            if row["enabled"] == "TRUE":
                 header_file.write(f"  cmd_table[Cmd_CODE_{row['name']}].cmd_func = Cmd_{row['name']};\n")
                 param_headers = ["param1_type", "param2_type", "param3_type", "param4_type", "param5_type", "param6_type"]
                 for i, param_header in enumerate(param_headers):

@@ -28,12 +28,14 @@ typedef enum
         reader = csv.reader(csv_file)
         headers = next(reader)
         dict_reader = csv.DictReader(csv_file, fieldnames=headers)
+        code = 0
         for row in dict_reader:
             if not any(row):
                 continue
-            if row["code"]:
+            if row["enabled"] == "TRUE":
                 try:
-                    row["code"] = f'0x{int(row["code"]):04X}'
+                    row["code"] = f'0x{int(code):04X}'
+                    code += 1
                 except ValueError:
                     continue
                 # comment = f"    // {row[16]}" if len(row) > 2 and row[16] else ""
