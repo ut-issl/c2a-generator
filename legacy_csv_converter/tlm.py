@@ -57,7 +57,7 @@ def transform_csv(src_path: Path, dest_path: Path) -> None:
 
 
 def main() -> None:
-    config_path = Path(__file__).parent.parent / "csv_converter_config.toml"
+    config_path = Path(__file__).parent.parent / "legacy_csv_converter_config.toml"
     config = toml.load(config_path)
     assert config.get("tlm") is not None, "tlm section is not defined in csv_converter_config.toml"
     config = config.get("tlm", {})
