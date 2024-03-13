@@ -23,9 +23,10 @@ Comment,,,,,Type,Description,Type,Description,Type,Description,Type,Description,
         )
         reader = csv.reader(src_file)
         next(reader)
+        code = 0
 
         for row in reader:
-            row = row[1:]
+            row = row[:1] + row[2:]
             row = [row[i].replace("\n", "##") for i in range(len(row))]
             row = [row[i].replace(",", "@@") for i in range(len(row))]
             if not any(row):
@@ -39,11 +40,12 @@ Comment,,,,,Type,Description,Type,Description,Type,Description,Type,Description,
                 num_params = (len(list(filter(None, row[2:15]))) - 1) / 2
                 if row[3]:
                     row[3] = "danger"
-                if row[0]:
+                if row[0] == "TRUE":
                     dest_file.write(
-                        f",{row[2]},{row[1]},0x{int(row[0]):04X},{int(num_params)},{row[4]},{row[5]},{row[6]},{row[7]},{row[8]},\
+                        f",{row[2]},{row[1]},0x{int(code):04X},{int(num_params)},{row[4]},{row[5]},{row[6]},{row[7]},{row[8]},\
 {row[9]},{row[10]},{row[11]},{row[12]},{row[13]},{row[14]},{row[15]},{row[3]},restricted,{row[16]},{row[17]}\n"
                     )
+                    code += 1
                 else:
                     dest_file.write(
                         f"*,{row[2]},{row[1]},,{int(num_params)},{row[4]},{row[5]},{row[6]},{row[7]},{row[8]},{row[9]},{row[10]},\
