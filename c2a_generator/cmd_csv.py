@@ -37,7 +37,7 @@ Comment,,,,,Type,Description,Type,Description,Type,Description,Type,Description,
                 continue
 
             if row[1]:
-                num_params = (len(list(filter(None, row[2:15]))) - 1) / 2
+                num_params = sum(1 for i in [4, 6, 8, 10, 12, 14] if row[i] != '')
                 if row[3]:
                     row[3] = "danger"
                 if row[0] == "TRUE":
