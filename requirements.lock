@@ -5,7 +5,10 @@
 #   pre: false
 #   features: []
 #   all-features: false
+#   with-sources: false
 
 -e file:.
 toml==0.10.2
+    # via c2a-generator
 types-toml==0.10.8.7
+    # via c2a-generator
