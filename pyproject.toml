@@ -1,5 +1,5 @@
 [project]
-name = "tlm-generator"
+name = "c2a_generator"
 version = "0.1.0"
 description = "Add your description here"
 authors = [
