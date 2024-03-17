@@ -4,11 +4,11 @@ from pathlib import Path
 from .util import get_git_file_blob_url
 
 
-def generate(src_path: str, dest_path: Path) -> None:
-    file_blob_url = get_git_file_blob_url(src_path)
+def generate(bct_src: list, dest_path: Path) -> None:
+    file_blob_url = get_git_file_blob_url(bct_src[0][0])
     assert dest_path.parent.exists(), f"{dest_path} does not exist"
 
-    with open(src_path, "r", encoding="utf-8") as csv_file, open(dest_path, "w", encoding="utf-8") as header_file:
+    with open(dest_path, "w", encoding="utf-8") as header_file:
         header_file.write(
             f"""
 /**
@@ -27,22 +27,21 @@ typedef enum
                 1:
             ]
         )
-        reader = csv.reader(csv_file)
-        headers = next(reader)
-        dict_reader = csv.DictReader(csv_file, fieldnames=headers)
-        previous_line_was_comment = False
-        for row in dict_reader:
-            if not any(row):
-                continue
-            if row["bcid"]:
-                previous_line_was_comment = False
-                comment = f"    // {row['description']}" if len(row) > 2 and row["description"] else ""
-                header_file.write(f"  {row['name']},{comment}\n")
-            else:
-                if not previous_line_was_comment:
-                    header_file.write("\n")
-                header_file.write(f"  // {row['name']}\n")
-                previous_line_was_comment = True
+
+        bcid = 0
+        for src_path, bcid_base in bct_src:
+            if bcid_base is not None:
+                bcid = bcid_base
+            with open(src_path, "r", encoding="utf-8") as csv_file:
+                reader = csv.reader(csv_file)
+                headers = next(reader)
+                dict_reader = csv.DictReader(csv_file, fieldnames=headers)
+                for row in dict_reader:
+                    if not any(row):
+                        continue
+                    comment = f"    // {row['description']}" if len(row) > 2 and row["description"] else ""
+                    header_file.write(f"  {row['name']} = {bcid},{comment}\n")
+                    bcid += 1
         header_file.write(
             """
   BC_ID_MAX    // BCT 自体のサイズは BCT_MAX_BLOCKS で規定
