@@ -31,7 +31,10 @@ Comment,Name,ShortName,BCID,エイリアス,,,,,Danger Flag,Description,Note
                     row = [row[i].replace(",", "@@") for i in range(len(row))]
                     if not any(row):
                         continue
-                    dest_file.write(f",{row[0]},,{bcid},,,,,,,{row[1]},\n")
+                    dest_file.write(f",{row[0]},,{bcid},,,,,,,{row[1]},")
+                    if len(row) > 2 and row[2]:
+                        dest_file.write(f"{row[2]}")
+                    dest_file.write("\n")
                     bcid += 1
                     line_index += 1
 
