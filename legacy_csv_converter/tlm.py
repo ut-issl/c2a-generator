@@ -11,6 +11,11 @@ formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(messag
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
+root_path = Path(__file__).parent.parent.parent / "sils-docker/sils/FlightSW/c2a-mobc-onglaisat"
+src_path = root_path / "database/TLM_DB"
+dest_path = Path(__file__).parent.parent / "tmp"
+src_prefix = "ISSL6U_MOBC_TLM_DB_"
+
 
 def transform_csv(src_path: Path, dest_path: Path) -> None:
     with open(src_path, "r", encoding="utf-8") as src_file, open(dest_path, "w", encoding="utf-8", newline="") as dest_file:
@@ -57,18 +62,6 @@ def transform_csv(src_path: Path, dest_path: Path) -> None:
 
 
 def main() -> None:
-    config_path = Path(__file__).parent.parent / "legacy_csv_converter_config.toml"
-    config = toml.load(config_path)
-    assert config.get("tlm") is not None, "tlm section is not defined in csv_converter_config.toml"
-    config = config.get("tlm", {})
-    assert config.get("src_path") is not None, "src_path is not defined in csv_converter_config.toml"
-    assert config.get("dest_path") is not None, "dest_path is not defined in csv_converter_config.toml"
-    assert config.get("src_prefix") is not None, "src_prefix is not defined in csv_converter_config.toml"
-
-    src_path = Path(config["src_path"])
-    dest_path = Path(config["dest_path"])
-    src_prefix = config["src_prefix"]
-
     if not dest_path.exists():
         logger.info(f"Destination path {dest_path} does not exist. Creating...")
         dest_path.mkdir(parents=True)
