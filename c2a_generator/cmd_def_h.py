@@ -34,7 +34,7 @@ typedef enum
                 continue
             if row["enabled"] == "TRUE":
                 try:
-                    row["code"] = f'0x{int(code):04X}'
+                    row["code"] = f"0x{int(code):04X}"
                     code += 1
                 except ValueError:
                     continue
