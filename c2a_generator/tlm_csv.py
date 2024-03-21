@@ -73,7 +73,7 @@ Comment,TLM Entry,Onboard Software Info.,,Extraction Info.,,,,Conversion Info.,,
             octet_pos = int(pos / 8)
             pos += bit_len
 
-            if row[0][-5:] == "DUMMY":
+            if row[0][-5:] == "DUMMY" or row[0][0:5] == "DUMMY":
                 dest_file.write("*")
 
             dest_file.write(
