@@ -38,7 +38,7 @@ def generate_(src_file_path: Path, dest_file_path: Path) -> None:
         dest_file.write("," * (dest_line_len - 4) + "\n")
         dest_file.write(",Enable/Disable,ENABLE")
         dest_file.write("," * (dest_line_len - 3) + "\n")
-        dest_file.write(f",IsRestricted, {row0[0]}")
+        dest_file.write(f",IsRestricted,{row0[0]}")
         dest_file.write("," * (dest_line_len - 3) + "\n")
         dest_file.write("," * (dest_line_len - 1) + "\n")
         dest_file.write(
@@ -69,12 +69,12 @@ Comment,TLM Entry,Onboard Software Info.,,Extraction Info.,,,,Conversion Info.,,
             else:
                 bit_len = int(row[2])
 
-            pos += bit_len
-            octet_pos = int(pos / 8)
             bit_pos = pos % 8
+            octet_pos = int(pos / 8)
+            pos += bit_len
 
-            # if (row[0][-5:] == 'DUMMY'):
-            #     dest_file.write('*')
+            if (row[0][-5:] == 'DUMMY'):
+                dest_file.write('*')
 
             dest_file.write(
                 f",{row[0]},{row[1]},{row[3]},PACKET,{octet_pos},{bit_pos},{bit_len},{row[4]},{row[5]},{row[6]},{row[7]},{row[8]},\
