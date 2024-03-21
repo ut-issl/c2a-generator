@@ -95,8 +95,9 @@ def generate(src_path: Path, dest_path: Path) -> None:
                     if is_bit_shift and row["type"]:
                         var = generate_bit_operation(bit_shift_func_list, bit_shift_type)
                         func, pos = type_to_func_and_pos[bit_shift_type]
-                        src_func += f"  {func}(&packet[{pos_sum}], {var});\n"
-                        pos_sum += pos
+                        if var:
+                            src_func += f"  {func}(&packet[{pos_sum}], {var});\n"
+                            pos_sum += pos
                         is_bit_shift, bit_shift_func_list, bit_shift_type = False, [], ""
                     if len(row["type"]) > 0 and row["type"][0] == "_" and "PH." not in row["name"]:
                         is_bit_shift = True
