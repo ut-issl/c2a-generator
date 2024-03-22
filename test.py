@@ -5,6 +5,7 @@ import c2a_generator
 root_path = Path(__file__).parent.parent / "sils-docker/sils/FlightSW/c2a-mobc-onglaisat"
 
 # cmd
+c2a_generator.cmd_def_c.generate(root_path / "design/cmd.csv", root_path / "src/src_user/TlmCmd/command_definitions.c")
 c2a_generator.cmd_def_h.generate(root_path / "design/cmd.csv", root_path / "src/src_user/TlmCmd/command_definitions.h")
 c2a_generator.cmd_csv.generate(root_path / "design/cmd.csv", root_path / "database/CMD_DB/ISSL6U_MOBC_CMD_DB_CMD_DB.csv")
 
