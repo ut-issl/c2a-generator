@@ -16,7 +16,8 @@ def get_git_file_blob_url(src_path: Path) -> str:
         repo_url = f"https://github.com{parsed_url.path}"[:-4]
 
         # Fetching the current commit hash
-        commit_hash = subprocess.check_output(["git", "rev-parse", "HEAD"]).strip().decode()
+        commit_hash = subprocess.check_output(["git", "log", "-n", "1", "--pretty=format:%H", str(src_path)]).strip().decode()
+
 
         # Fetching the Git repository root path
         repo_root = Path(subprocess.check_output(["git", "rev-parse", "--show-toplevel"]).strip().decode())
