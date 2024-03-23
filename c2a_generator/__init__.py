@@ -1,4 +1,5 @@
 from .bct_csv import generate  # noqa
+from .bct_def_c import generate  # noqa
 from .bct_def_h import generate  # noqa
 from .cmd_csv import generate  # noqa
 from .cmd_def_c import generate  # noqa
