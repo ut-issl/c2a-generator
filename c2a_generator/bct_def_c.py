@@ -126,7 +126,7 @@ void BC_load_defaults(void)
 
                 if not is_init:
                     c_file.write("}\n")
-                c_file.write("\n#pragma section")
+                c_file.write("\n#pragma section\n")
 
         header_file.write(
             """}
