@@ -39,6 +39,8 @@ typedef enum
                 for row in dict_reader:
                     if not any(row):
                         continue
+                    if not row["name"].strip():
+                        continue
                     comment = f"    // {row['description']}" if len(row) > 2 and row["description"] else ""
                     header_file.write(f"  {row['name']} = {bcid},{comment}\n")
                     bcid += 1

@@ -23,17 +23,19 @@ Comment,Name,ShortName,BCID,エイリアス,,,,,Danger Flag,Description,Note
                 bcid = bcid_base
             with open(src_path, "r", encoding="utf-8") as src_file:
                 reader = csv.reader(src_file)
-                next(reader)
+                headers = next(reader)
+                dict_reader = csv.DictReader(src_file, fieldnames=headers)
 
-                for row in reader:
-                    row = row[1:]
-                    row = [row[i].replace("\n", "##") for i in range(len(row))]
-                    row = [row[i].replace(",", "@@") for i in range(len(row))]
+                for row in dict_reader:
+                    row["description"] = row["description"].replace(",", "@@").replace("\n", "##")
+                    row["note"] = row["note"].replace(",", "@@").replace("\n", "##")
                     if not any(row):
                         continue
-                    dest_file.write(f",{row[0]},,{bcid},,,,,,,{row[1]},")
-                    if len(row) > 2 and row[2]:
-                        dest_file.write(f"{row[2]}")
+                    if not row["name"].strip():
+                        continue
+                    dest_file.write(f",{row['name']},,{bcid},,,,,,,{row['description']},")
+                    if row["note"]:
+                        dest_file.write(f"{row['note']}")
                     dest_file.write("\n")
                     bcid += 1
                     line_index += 1
