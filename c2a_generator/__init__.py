@@ -12,3 +12,4 @@ from .subobc_tlm_def_h import generate  # noqa
 from .tlm_csv import generate  # noqa
 from .tlm_def_c import generate  # noqa
 from .tlm_def_h import generate  # noqa
+from .wings_json import generate  # noqa
