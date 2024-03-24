@@ -62,3 +62,5 @@ c2a_generator.tlm_def_h.generate(tlm_path, root_path / "src/src_user/TlmCmd/tele
 c2a_generator.tlm_def_c.generate(tlm_path, root_path / "src/src_user/TlmCmd/telemetry_definitions.c")
 c2a_generator.tlm_csv.generate(tlm_path, root_path / "database/TLM_DB", prefix="ISSL6U_MOBC_TLM_DB_")
 
+# wings
+c2a_generator.wings_json.generate(bct_src, root_path / "../../../wings/aspnetapp/WINGS/ClientApp/src/assets/alias/c2a_onglai.json")
