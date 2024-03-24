@@ -51,10 +51,8 @@ max-line-length = 150
 ignore = ["E203", "E501", "W503", "W504"] # blackとconflictする設定
 
 [tool.rye.scripts]
-c2a_generator = "python c2a_generator/main.py"
-tlm_csv_converter = "python csv_converter/tlm.py"
-format-c2a = { chain = ["black c2a_generator", "isort c2a_generator"] }
-format-csv = { chain = ["black csv_converter", "isort csv_converter"] }
-lint-c2a = { chain = ["black --check c2a_generator", "isort -c -v c2a_generator", "pflake8 c2a_generator", "mypy c2a_generator"] }
+format = { chain = ["black c2a_generator", "isort c2a_generator"] }
+format-csv = { chain = ["black legacy_csv_converter", "isort legacy_csv_converter"] }
+lint = { chain = ["black --check c2a_generator", "isort -c -v c2a_generator", "pflake8 c2a_generator", "mypy c2a_generator"] }
 lint-csv = { chain = ["black --check csv_converter", "isort -c -v csv_converter", "pflake8 csv_converter", "mypy csv_converter"] }
 # test = { chain = ["python -m pytest tests"] }
