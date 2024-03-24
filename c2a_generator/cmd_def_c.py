@@ -55,7 +55,8 @@ void CA_load_cmd_table(CA_CmdInfo cmd_table[CA_MAX_CMDS])
                         subindex = "second" if i % 2 else "first"
                         param_info += f"  cmd_table[Cmd_CODE_{row['name']}].param_size_infos[{index}].packed_info.bit.{subindex} = {conv_type_to_size[param]};\n"
         header_file.write(f"\n{param_info}")
-        header_file.write("""}
+        header_file.write(
+            """}
 
 #pragma section
 """

@@ -25,7 +25,9 @@ def generate_(src_file_path: Path, dest_file_path: Path, dest_calced_data_path: 
     pos = 0
     bit_len = 0
 
-    with open(src_file_path, "r", encoding="utf-8") as src_file, open(dest_calced_data_path, "w", encoding="utf-8") as dest_calced_data, open(dest_file_path, "w", encoding="utf-8") as dest_file:
+    with open(src_file_path, "r", encoding="utf-8") as src_file, open(dest_calced_data_path, "w", encoding="utf-8") as dest_calced_data, open(
+        dest_file_path, "w", encoding="utf-8"
+    ) as dest_file:
         reader = csv.reader(src_file)
 
         meta = next(reader)
@@ -35,7 +37,8 @@ def generate_(src_file_path: Path, dest_file_path: Path, dest_calced_data_path: 
         for i in range(len(meta)):
             meta[i] = meta[i].replace("\n", "##").replace(",", "@@")
 
-        dest_calced_data.write(f"""
+        dest_calced_data.write(
+            f"""
 ,Target,{meta[2]},Local Var{"," * (dest_line_len - 4)}
 ,PacketID,0x{int(meta[1]):02x},{meta[3]}{"," * (dest_line_len - 4)}
 ,Enable/Disable,ENABLE{"," * (dest_line_len - 3)}
@@ -44,8 +47,12 @@ def generate_(src_file_path: Path, dest_file_path: Path, dest_calced_data_path: 
 Comment,TLM Entry,Onboard Software Info.,,Extraction Info.,,,,Conversion Info.,,,,,,,,Description,Note
 ,Name,Var.%%##Type,Variable or Function Name,Ext.%%##Type,Pos. Desiginator,,,Conv.%%##Type,Poly (Σa_i * x^i),,,,,,Status,,
 ,,,,,Octet%%##Pos.,bit%%##Pos.,bit%%##Len.,,a0,a1,a2,a3,a4,a5,,,
-"""[1:])
-        dest_file.write(f"""
+"""[
+                1:
+            ]
+        )
+        dest_file.write(
+            f"""
 ,Target,{meta[2]},Local Var{"," * (dest_line_len - 4)}
 ,PacketID,0x{int(meta[1]):02x},{meta[3]}{"," * (dest_line_len - 4)}
 ,Enable/Disable,ENABLE{"," * (dest_line_len - 3)}
@@ -54,7 +61,10 @@ Comment,TLM Entry,Onboard Software Info.,,Extraction Info.,,,,Conversion Info.,,
 Comment,TLM Entry,Onboard Software Info.,,Extraction Info.,,,,Conversion Info.,,,,,,,,Description,Note
 ,Name,Var.%%##Type,Variable or Function Name,Ext.%%##Type,Pos. Desiginator,,,Conv.%%##Type,Poly (Σa_i * x^i),,,,,,Status,,
 ,,,,,Octet%%##Pos.,bit%%##Pos.,bit%%##Len.,,a0,a1,a2,a3,a4,a5,,,
-"""[1:])
+"""[
+                1:
+            ]
+        )
 
         for row in dict_reader:
             for key in ["var", "status", "description", "note"]:
@@ -90,7 +100,11 @@ Comment,TLM Entry,Onboard Software Info.,,Extraction Info.,,,,Conversion Info.,,
 
             octet_pos_original = "=R[-1]C+INT((R[-1]C[1]+R[-1]C[2])/8)" if row["name"] != "PH.VER" else "0"
             bit_pos_original = "=MOD((R[-1]C+R[-1]C[1])@@8)" if row["name"] != "PH.VER" else "0"
-            bit_len_original = '=IF(OR(EXACT(RC[-5]@@"uint8_t")@@EXACT(RC[-5]@@"int8_t"))@@8@@IF(OR(EXACT(RC[-5]@@"uint16_t")@@EXACT(RC[-5]@@"int16_t"))@@16@@IF(OR(EXACT(RC[-5]@@"uint32_t")@@EXACT(RC[-5]@@"int32_t")@@EXACT(RC[-5]@@"float"))@@32@@IF(EXACT(RC[-5]@@"double")@@64))))' if not row["bit"] else row["bit"]
+            bit_len_original = (
+                '=IF(OR(EXACT(RC[-5]@@"uint8_t")@@EXACT(RC[-5]@@"int8_t"))@@8@@IF(OR(EXACT(RC[-5]@@"uint16_t")@@EXACT(RC[-5]@@"int16_t"))@@16@@IF(OR(EXACT(RC[-5]@@"uint32_t")@@EXACT(RC[-5]@@"int32_t")@@EXACT(RC[-5]@@"float"))@@32@@IF(EXACT(RC[-5]@@"double")@@64))))'
+                if not row["bit"]
+                else row["bit"]
+            )
             var_original = row["var"]
             if not row["var"] and (len(row["name"]) > 3 and row["name"][0:3] not in ["PH.", "SH."]):
                 var_original = "||"

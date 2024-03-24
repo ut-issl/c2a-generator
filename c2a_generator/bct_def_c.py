@@ -36,7 +36,10 @@ def generate(bct_src: list, dest_path: Path, bc_header_header: str) -> None:
  */
 void BC_load_defaults(void)
 {{
-"""[1:])
+"""[
+                1:
+            ]
+        )
         bc_header_file.write(
             f"""
 /**
@@ -49,14 +52,18 @@ void BC_load_defaults(void)
 #define BC_HEADER_H_
 
 {bc_header_header}
-"""[1:])
+"""[
+                1:
+            ]
+        )
         bc_num = 1
         for src_path, _ in bct_src:
             dest_c_path = bc_definition_folder_path / Path(src_path).name.replace(".csv", ".c")
             if "mram" in src_path.name:
                 continue
             with open(src_path, "r", encoding="utf-8") as csv_file, open(dest_c_path, "w", encoding="utf-8") as c_file:
-                c_file.write(f"""
+                c_file.write(
+                    f"""
 #pragma section REPRO
 /**
  * @file
@@ -66,7 +73,10 @@ void BC_load_defaults(void)
  */
 #include "bc_header.h"
 
-"""[1:])
+"""[
+                        1:
+                    ]
+                )
 
                 reader = csv.reader(csv_file)
                 headers = next(reader)
@@ -139,4 +149,3 @@ void BC_load_defaults(void)
 #endif
 """
         )
-
