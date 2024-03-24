@@ -14,17 +14,17 @@ c2a_generator.cmd_csv.generate(root_path / "design/cmd.csv", root_path / "databa
 # MRAM 三重領域: 1270 - 1279
 # BCT MAX : 1280
 bct_src = [
-    [root_path / "design/bct/sequence_list.csv", 0], # Block Cmds for Mode Transition (シーケンスリスト), ./src_user/Settings/Modes/Transitions/ で定義
-    [root_path / "design/bct/task_list.csv", None], # Block Cmds for TaskList (タスクリスト), ./src_user/Settings/Modes/TaskLists/ で定義
-    [root_path / "design/bct/app_router.csv", None],
-    [root_path / "design/bct/app_combinator.csv", None],
-    [root_path / "design/bct/cdh.csv", None],
-    [root_path / "design/bct/comm.csv", None],
-    [root_path / "design/bct/power.csv", None],
-    [root_path / "design/bct/mif.csv", None],
-    [root_path / "design/bct/thermal.csv", None],
-    [root_path / "design/bct/mram.csv", 1142],
-    [root_path / "design/bct/mram_triple.csv", 1270],
+    [root_path / "design/bct/bc_sequence_list.csv", 0], # Block Cmds for Mode Transition (シーケンスリスト), ./src_user/Settings/Modes/Transitions/ で定義
+    [root_path / "design/bct/bc_task_list.csv", None], # Block Cmds for TaskList (タスクリスト), ./src_user/Settings/Modes/TaskLists/ で定義
+    [root_path / "design/bct/bc_app_router.csv", None],
+    [root_path / "design/bct/bc_app_combinator.csv", None],
+    [root_path / "design/bct/bc_cdh.csv", None],
+    [root_path / "design/bct/bc_comm.csv", None],
+    [root_path / "design/bct/bc_power.csv", None],
+    [root_path / "design/bct/bc_mif.csv", None],
+    [root_path / "design/bct/bc_thermal.csv", None],
+    [root_path / "design/bct/bc_mram.csv", 1142],
+    [root_path / "design/bct/bc_mram_triple.csv", 1270],
 ]
 bc_header_header = """
 #include <src_core/TlmCmd/block_command_table.h>
@@ -60,5 +60,5 @@ c2a_generator.bct_csv.generate(bct_src, root_path / "database/CMD_DB/ISSL6U_MOBC
 tlm_path = root_path / "design/tlm"
 c2a_generator.tlm_def_h.generate(tlm_path, root_path / "src/src_user/TlmCmd/telemetry_definitions.h")
 c2a_generator.tlm_def_c.generate(tlm_path, root_path / "src/src_user/TlmCmd/telemetry_definitions.c")
-c2a_generator.tlm_csv.generate(tlm_path, root_path / "database/TLM_DB/calced_data", prefix="ISSL6U_MOBC_TLM_DB_")
+c2a_generator.tlm_csv.generate(tlm_path, root_path / "database/TLM_DB", prefix="ISSL6U_MOBC_TLM_DB_")
 
