@@ -3,7 +3,6 @@ from pathlib import Path
 
 
 def generate(bct_src: list, dest_file_path: Path) -> None:
-    prev_row0_is_none = False
     dest_line_len = 12
     dest_line_max = 300
     line_index = 2
