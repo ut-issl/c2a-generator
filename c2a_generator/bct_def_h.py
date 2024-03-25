@@ -42,7 +42,8 @@ typedef enum
                     if not row["name"].strip():
                         continue
                     comment = f"    // {row['description']}" if len(row) > 2 and row["description"] else ""
-                    header_file.write(f"  {row['name']} = {bcid},{comment}\n")
+                    # header_file.write(f"  {row['name']} = {bcid},{comment}\n")
+                    header_file.write(f"  {row['name']} = {row['bcid']},{comment}\n")
                     bcid += 1
         header_file.write(
             """
