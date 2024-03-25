@@ -26,13 +26,14 @@ Comment,Name,ShortName,BCID,エイリアス,,,,,Danger Flag,Description,Note
                 dict_reader = csv.DictReader(src_file, fieldnames=headers)
 
                 for row in dict_reader:
-                    row["description"] = row["description"].replace(",", "@@").replace("\n", "##")
-                    row["note"] = row["note"].replace(",", "@@").replace("\n", "##")
+                    row["description"] = row["description"].replace(",", "@@").replace("\n", "##") if row["description"] else ""
+                    row["note"] = row["note"].replace(",", "@@").replace("\n", "##") if row["note"] else ""
                     if not any(row):
                         continue
                     if not row["name"].strip():
                         continue
-                    dest_file.write(f",{row['name']},,{bcid},,,,,,,{row['description']},")
+                    # dest_file.write(f",{row['name']},,{bcid},,,,,,,{row['description']},")
+                    dest_file.write(f",{row['name']},,{row['bcid']},,,,,,,{row['description']},")
                     if row["note"]:
                         dest_file.write(f"{row['note']}")
                     dest_file.write("\n")
