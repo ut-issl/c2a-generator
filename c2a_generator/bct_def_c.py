@@ -10,6 +10,7 @@ def generate(bct_src: list, dest_path: Path, bc_header_header: str) -> None:
 
     bc_definition_folder_path = dest_path.parent / "BlockCommandDefinition"
     bc_header_path = bc_definition_folder_path / "bc_header.h"
+    bc_header_file_blob_url = get_git_file_blob_url(bc_header_path)
 
     with open(dest_path, "w", encoding="utf-8") as header_file, open(bc_header_path, "w", encoding="utf-8") as bc_header_file:
         header_file.write(
@@ -46,7 +47,7 @@ void BC_load_defaults(void)
  * @file
  * @brief  ブロックコマンド定義
  * @note   このコードは自動生成されています！
- * @src    {file_blob_url}
+ * @src    {bc_header_file_blob_url}
  */
 #ifndef BC_HEADER_H_
 #define BC_HEADER_H_
@@ -58,6 +59,7 @@ void BC_load_defaults(void)
         )
         bc_num = 1
         for src_path, _ in bct_src:
+            file_blob_url_each = get_git_file_blob_url(src_path)
             dest_c_path = bc_definition_folder_path / Path(src_path).name.replace(".csv", ".c")
             if "mram" in src_path.name:
                 continue
@@ -69,7 +71,7 @@ void BC_load_defaults(void)
  * @file
  * @brief  ブロックコマンド定義
  * @note   このコードは自動生成されています！
- * @src    {file_blob_url}
+ * @src    {file_blob_url_each}
  */
 #include "bc_header.h"
 
