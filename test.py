@@ -47,6 +47,7 @@ bc_header_header = """
 #include "../../Drivers/Mission/mif_telemetry_definitions.h"
 #include "../../Applications/app_registry.h"
 #include "../../Applications/UserDefined/Com/comm_fdir.h"
+#include "../../Applications/UserDefined/Thermal/mobc_temperature_monitor.h"
 
 #define EL_LOG_DR_PARTITION (7)
 #define TL_TLM_DR_PARTITION (8)
