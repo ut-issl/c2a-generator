@@ -32,6 +32,7 @@ bc_header_header = """
 #include <src_core/TlmCmd/common_tlm_packet.h>
 #include <src_core/TlmCmd/common_cmd_packet.h>
 #include <src_core/System/TimeManager/obc_time.h>
+#include <src_core/System/TimeManager/time_manager.h>
 #include <src_core/System/EventManager/event_logger.h>
 #include <src_core/Applications/timeline_command_dispatcher_id_define.h>
 
