@@ -6,7 +6,9 @@ def generate(bct_src: list, dest_path: Path) -> None:
     data = [
         {
             "obc_name": "MOBC",
-            "bc": []
+            "bc": [],
+            "el": [],
+            "eh": []
         }
     ]
     bcid = 0
