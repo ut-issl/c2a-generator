@@ -5,27 +5,47 @@
 #   pre: false
 #   features: []
 #   all-features: false
+#   with-sources: false
 
 -e file:.
 attrs==23.2.0
+    # via flake8-annotations
 black==24.1.1
 click==8.1.7
+    # via black
 flake8==6.1.0
+    # via flake8-annotations
+    # via pep8-naming
+    # via pyproject-flake8
 flake8-annotations==3.0.1
 iniconfig==2.0.0
+    # via pytest
 isort==5.13.2
 mccabe==0.7.0
+    # via flake8
 mypy==1.8.0
 mypy-extensions==1.0.0
+    # via black
+    # via mypy
 packaging==23.2
+    # via black
+    # via pytest
 pathspec==0.12.1
+    # via black
 pep8-naming==0.13.3
 platformdirs==4.1.0
+    # via black
 pluggy==1.4.0
+    # via pytest
 pycodestyle==2.11.1
+    # via flake8
 pyflakes==3.1.0
+    # via flake8
 pyproject-flake8==6.1.0
 pytest==8.0.0
 toml==0.10.2
+    # via c2a-generator
 types-toml==0.10.8.7
+    # via c2a-generator
 typing-extensions==4.9.0
+    # via mypy

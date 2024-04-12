@@ -1,3 +1,4 @@
+import os
 import subprocess
 from pathlib import Path
 from urllib.parse import urlparse
@@ -7,12 +8,15 @@ def get_git_file_blob_url(src_path: Path) -> str:
     """Get the GitHub repository URL, current commit hash, and repository root path."""
     try:
         # Fetching the GitHub repository URL
+        os.chdir(src_path.parent)
         remote_url = subprocess.check_output(["git", "config", "--get", "remote.origin.url"]).strip().decode()
+        if len(remote_url) > 3 and remote_url[:4] == "git@":
+            remote_url = remote_url.replace(":", "/").replace("git@", "https://")
         parsed_url = urlparse(remote_url)
-        repo_url = f"https://{parsed_url.netloc}{parsed_url.path}".rstrip(".git")
+        repo_url = f"https://github.com{parsed_url.path}"[:-4]
 
         # Fetching the current commit hash
-        commit_hash = subprocess.check_output(["git", "rev-parse", "HEAD"]).strip().decode()
+        commit_hash = subprocess.check_output(["git", "log", "-n", "1", "--pretty=format:%H", str(src_path)]).strip().decode()
 
         # Fetching the Git repository root path
         repo_root = Path(subprocess.check_output(["git", "rev-parse", "--show-toplevel"]).strip().decode())
