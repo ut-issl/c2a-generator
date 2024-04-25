@@ -2,15 +2,9 @@ import csv
 import json
 from pathlib import Path
 
+
 def generate(bct_src: list, dest_path: Path) -> None:
-    data = [
-        {
-            "obc_name": "MOBC",
-            "bc": [],
-            "el": [],
-            "eh": []
-        }
-    ]
+    data = [{"obc_name": "MOBC", "bc": [], "el": [], "eh": []}]
     bcid = 0
     for src_path, bcid_base in bct_src:
         if bcid_base is not None:
