@@ -3,23 +3,32 @@ from pathlib import Path
 
 
 def generate(src_file_path: Path, dest_file_path: Path) -> None:
-    compo_list = ["CORE", "CDH", "POWER", "COMM", "MISSION", "Thermal", "Other", "Nonorder"]
+    compo_list = [
+        "CORE",
+        "CDH",
+        "POWER",
+        "COMM",
+        "MISSION",
+        "Thermal",
+        "Other",
+        "Nonorder",
+    ]
     compo_comut = 0
     dest_line_len = 21
     line_index = 4
     dest_line_max = 1000
     prev_is_none = False
 
-    with open(src_file_path, "r", encoding="utf-8") as src_file, open(dest_file_path, "w", encoding="utf-8") as dest_file:
+    with open(src_file_path, "r", encoding="utf-8") as src_file, open(
+        dest_file_path, "w", encoding="utf-8"
+    ) as dest_file:
         dest_file.write(
             """
 Component,Name,Target,Code,Params,,,,,,,,,,,,,Danger Flag,Is Restricted,Description,Note
 MOBC,,,,Num Params,Param1,,Param2,,Param3,,Param4,,Param5,,Param6,,,,,
 Comment,,,,,Type,Description,Type,Description,Type,Description,Type,Description,Type,Description,Type,Description,,,,
 *,EXAMPLE,OBC,,2,uint32_t,address,int32_t,time [ms],,,,,,,,,,,例,引数の説明と単位を書くこと！（例：time [ms]）
-"""[
-                1:
-            ]
+"""[1:]
         )
         reader = csv.reader(src_file)
         next(reader)
@@ -63,4 +72,6 @@ Comment,,,,,Type,Description,Type,Description,Type,Description,Type,Description,
             prev_is_none = False
             line_index += 1
 
-        dest_file.write(("," * (dest_line_len - 1) + "\n") * (dest_line_max - line_index))
+        dest_file.write(
+            ("," * (dest_line_len - 1) + "\n") * (dest_line_max - line_index)
+        )
