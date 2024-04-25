@@ -2,8 +2,6 @@ import csv
 from pathlib import Path
 from typing import List, Union
 
-from .util import get_git_file_blob_url
-
 
 def generate_bit_operation(variables: list, result_type: str = "uint8_t") -> str:
     if len(variables) == 1:
@@ -29,25 +27,21 @@ def generate_bit_operation(variables: list, result_type: str = "uint8_t") -> str
 
 
 def generate(src_path: Path, dest_path: Path) -> None:
-    file_blob_url = get_git_file_blob_url(src_path)
     assert dest_path.parent.exists(), f"{dest_path} does not exist"
     with open(dest_path, "w", encoding="utf-8") as header_file:
         header_file.write(
-            f"""
+            """
 #pragma section REPRO
 /**
  * @file
  * @brief  テレメトリ定義
  * @note   このコードは自動生成されています！
- * @src    {file_blob_url}
  */
 #include <src_core/TlmCmd/telemetry_frame.h>
 #include "telemetry_definitions.h"
 #include "telemetry_source.h"
 
-"""[
-                1:
-            ]
+"""[1:]
         )
         # packet_id 小さい順
         csv_files = [csv_file for csv_file in src_path.glob("*.csv")]
@@ -63,7 +57,11 @@ def generate(src_path: Path, dest_path: Path) -> None:
                 return packet_id
 
         tlm_path_list = sorted(csv_files, key=sort_key)
-        src_list = ["", "\nvoid TF_load_tlm_table(TF_TlmInfo tlm_table[TF_MAX_TLMS])\n{\n", ""]
+        src_list = [
+            "",
+            "\nvoid TF_load_tlm_table(TF_TlmInfo tlm_table[TF_MAX_TLMS])\n{\n",
+            "",
+        ]
         type_to_func_and_pos = {
             "int8_t": ("TF_copy_i8", 1),
             "int16_t": ("TF_copy_i16", 2),
@@ -76,13 +74,21 @@ def generate(src_path: Path, dest_path: Path) -> None:
         }
         for tlm_path in tlm_path_list:
             tlm_name = tlm_path.stem
-            src_list[0] += f"static TF_TLM_FUNC_ACK Tlm_{tlm_name}_(uint8_t* packet, uint16_t* len, uint16_t max_len);\n"
-            src_list[1] += f"  tlm_table[Tlm_CODE_{tlm_name}].tlm_func = Tlm_{tlm_name}_;\n"
-            src_list[2] += f"\nstatic TF_TLM_FUNC_ACK Tlm_{tlm_name}_(uint8_t* packet, uint16_t* len, uint16_t max_len)\n{{\n"
+            src_list[0] += (
+                f"static TF_TLM_FUNC_ACK Tlm_{tlm_name}_(uint8_t* packet, uint16_t* len, uint16_t max_len);\n"
+            )
+            src_list[1] += (
+                f"  tlm_table[Tlm_CODE_{tlm_name}].tlm_func = Tlm_{tlm_name}_;\n"
+            )
+            src_list[2] += (
+                f"\nstatic TF_TLM_FUNC_ACK Tlm_{tlm_name}_(uint8_t* packet, uint16_t* len, uint16_t max_len)\n{{\n"
+            )
             with open(tlm_path, "r", encoding="utf-8") as file:
                 reader = csv.reader(file)
                 first_line = next(reader)
-                local_var = first_line[3].replace("\n", "\n  ") if len(first_line) > 3 else ""
+                local_var = (
+                    first_line[3].replace("\n", "\n  ") if len(first_line) > 3 else ""
+                )
                 headers = next(reader)
                 dict_reader = csv.DictReader(file, fieldnames=headers)
                 src_func = ""
@@ -93,13 +99,23 @@ def generate(src_path: Path, dest_path: Path) -> None:
                     if not any(row.values()):
                         continue
                     if is_bit_shift and row["type"]:
-                        var = generate_bit_operation(bit_shift_func_list, bit_shift_type)
+                        var = generate_bit_operation(
+                            bit_shift_func_list, bit_shift_type
+                        )
                         func, pos = type_to_func_and_pos[bit_shift_type]
                         if var:
                             src_func += f"  {func}(&packet[{pos_sum}], {var});\n"
                             pos_sum += pos
-                        is_bit_shift, bit_shift_func_list, bit_shift_type = False, [], ""
-                    if len(row["type"]) > 0 and row["type"][0] == "_" and "PH." not in row["name"]:
+                        is_bit_shift, bit_shift_func_list, bit_shift_type = (
+                            False,
+                            [],
+                            "",
+                        )
+                    if (
+                        len(row["type"]) > 0
+                        and row["type"][0] == "_"
+                        and "PH." not in row["name"]
+                    ):
                         is_bit_shift = True
                         bit_shift_type = row["type"][1:]
                         bit_shift_func_list.append((row["var"], int(row["bit"])))
@@ -116,17 +132,21 @@ def generate(src_path: Path, dest_path: Path) -> None:
                         bit_shift_func_list.append((row["var"], int(row["bit"])))
                 else:
                     if is_bit_shift:
-                        var = generate_bit_operation(bit_shift_func_list, bit_shift_type)
+                        var = generate_bit_operation(
+                            bit_shift_func_list, bit_shift_type
+                        )
                         func, pos = type_to_func_and_pos[bit_shift_type]
                         src_func += f"  {func}(&packet[{pos_sum}], {var});\n"
                         pos_sum += pos
 
                 if local_var:
                     src_list[2] += f"  {local_var.strip()}\n\n"
-                src_list[
-                    2
-                ] += f"  if ({str(pos_sum)} > max_len) return TF_TLM_FUNC_ACK_TOO_SHORT_LEN;\n\n#ifndef BUILD_SETTINGS_FAST_BUILD\n{src_func}"
-            src_list[2] += f"#endif\n\n  *len = {pos_sum};\n  return TF_TLM_FUNC_ACK_SUCCESS;\n}}\n"
+                src_list[2] += (
+                    f"  if ({str(pos_sum)} > max_len) return TF_TLM_FUNC_ACK_TOO_SHORT_LEN;\n\n#ifndef BUILD_SETTINGS_FAST_BUILD\n{src_func}"
+                )
+            src_list[2] += (
+                f"#endif\n\n  *len = {pos_sum};\n  return TF_TLM_FUNC_ACK_SUCCESS;\n}}\n"
+            )
         else:
             src_list[1] += "}\n"
         for src in src_list:
