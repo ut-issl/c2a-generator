@@ -56,8 +56,8 @@ Comment,,,,,Type,Description,Type,Description,Type,Description,Type,Description,
 {row[9]},{row[10]},{row[11]},{row[12]},{row[13]},{row[14]},{row[15]},{row[3]},restricted,{row[16]},{row[17]}\n"
                     )
                     code += 1
-                    if code == 497:  # 0x1F1 を回避する
-                        code += 1
+                    if code == 496:  # 0x1F0, 0x1F1 を回避する
+                        code += 2
                 else:
                     dest_file.write(
                         f"*,{row[2]},{row[1]},,{int(num_params)},{row[4]},{row[5]},{row[6]},{row[7]},{row[8]},{row[9]},{row[10]},\
