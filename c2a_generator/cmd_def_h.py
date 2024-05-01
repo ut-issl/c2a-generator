@@ -32,6 +32,8 @@ typedef enum
                 try:
                     row["code"] = f"0x{int(code):04X}"
                     code += 1
+                    if code == 496:  # 0x1F0, 0x1F1 を回避する
+                        code += 2
                 except ValueError:
                     continue
                 # comment = f"    // {row[16]}" if len(row) > 2 and row[16] else ""
