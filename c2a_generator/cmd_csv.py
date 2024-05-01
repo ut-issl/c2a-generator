@@ -28,6 +28,7 @@ Component,Name,Target,Code,Params,,,,,,,,,,,,,Danger Flag,Is Restricted,Descript
 MOBC,,,,Num Params,Param1,,Param2,,Param3,,Param4,,Param5,,Param6,,,,,
 Comment,,,,,Type,Description,Type,Description,Type,Description,Type,Description,Type,Description,Type,Description,,,,
 *,EXAMPLE,OBC,,2,uint32_t,address,int32_t,time [ms],,,,,,,,,,,例,引数の説明と単位を書くこと！（例：time [ms]）
+*,,,,,,,,,,,,,,,,,,,,
 """[1:]
         )
         reader = csv.reader(src_file)
