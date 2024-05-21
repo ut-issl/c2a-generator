@@ -25,18 +25,6 @@ jobs:
       with:
         ref: ${{ github.event.pull_request.base.ref }}
 
-    - uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'yarn'
-        cache-dependency-path: '**/yarn.lock'
-
-    - name: Install dependencies
-      run: |
-        yarn global add turbo
-        yarn global add node-gyp
-        yarn --frozen-lockfile
-
     - name: Read version from pyproject.toml
       id: version
       run: |
