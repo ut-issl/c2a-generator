@@ -4,6 +4,8 @@ from .bct_def_h import generate  # noqa
 from .cmd_csv import generate  # noqa
 from .cmd_def_c import generate  # noqa
 from .cmd_def_h import generate  # noqa
+from .eh_rules_c import generate  # noqa
+from .eh_rules_h import generate  # noqa
 from .subobc_cmd_def_h import generate  # noqa
 from .subobc_tlm_buf_c import generate  # noqa
 from .subobc_tlm_buf_h import generate  # noqa
