@@ -1,0 +1,50 @@
+name: Draft Release
+
+on:
+  push:
+    branches:
+      - main
+      - dev/*.*.*
+
+permissions:
+  contents: write
+  actions: write       # Necessary to cancel workflow executions
+  checks: write        # Necessary to write reports
+  pull-requests: write # Necessary to comment on PRs
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  # Refs: https://github.com/release-drafter/release-drafter
+  update-release-draft:
+    runs-on: ubuntu-latest
+
+    outputs:
+      CURRENT_VERSION: ${{ steps.version.outputs.project_version }}
+      RELEASE_DRAFT_BODY: ${{ steps.release-drafter.outputs.body }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ut-issl/c2a-generator
+          ssh-key: ${{ secrets.PRIVATE_REPO_SSH_KEY }}
+
+      - name: Read version from pyproject.toml
+        id: version
+        run: |
+          version=$(awk -F\" '/version =/ {print $2}' pyproject.toml)
+          echo "::set-output name=project_version::$version"
+
+      - uses: release-drafter/release-drafter@v6
+        id: release-drafter
+        with:
+          config-name: release-drafter.yml
+          name: v${{ steps.version.outputs.project_version }}
+          tag: v${{ steps.version.outputs.project_version }}
+          version: ${{ steps.version.outputs.project_version }}
+          disable-autolabeler: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
