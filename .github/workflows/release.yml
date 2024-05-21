@@ -1,0 +1,56 @@
+name: Release
+
+on:
+  pull_request:
+    branches:
+      - release/current
+      - release/*.*.*
+    types: [closed]
+
+permissions:
+  contents: write
+
+jobs:
+  create-github-release:
+
+    runs-on: ubuntu-latest
+
+    if: github.event.pull_request.merged == true
+
+    outputs:
+      RELEASED_VERSION: ${{ steps.version.outputs.project_version }}
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.pull_request.base.ref }}
+
+    - name: Read version from pyproject.toml
+      id: version
+      run: |
+        version=$(awk -F\" '/version =/ {print $2}' pyproject.toml)
+        echo "::set-output name=project_version::$version"
+
+    - name: Update Changelog
+      uses: stefanzweifel/changelog-updater-action@v1
+      with:
+        latest-version: v${{ steps.version.outputs.project_version }}
+        release-notes: ${{ github.event.pull_request.body }}
+
+    - name: Commit, Tag and Push
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        branch: ${{ github.event.pull_request.base.ref }}
+        commit_message: Release v${{ steps.version.outputs.project_version }}
+        tagging_message: v${{ steps.version.outputs.project_version }}
+
+    - uses: softprops/action-gh-release@v2
+      with:
+        body: ${{ github.event.pull_request.body }}
+        tag_name: v${{ steps.version.outputs.project_version }}
+        target_commitish: ${{ github.head_ref }}
+
+    - name: Delete drafts
+      uses: hugo19941994/delete-draft-releases@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -6,6 +6,36 @@ root_path = (
     Path(__file__).parent.parent / "sils-docker/sils/FlightSW/c2a-mobc-onglaisat"
 )
 
+# eh
+c2a_generator.eh_rules_h.generate(
+    root_path / "design/eh.csv",
+    root_path / "src/src_user/Settings/System/EventHandlerRules/event_handler_rules.h",
+    base_id=9
+)
+c2a_generator.eh_rules_c.generate(
+    root_path / "design/eh.csv",
+    root_path / "src/src_user/Settings/System/EventHandlerRules/event_handler_rules.c",
+    eh_header="""
+#include "event_handler_rules.h"
+#include <src_core/System/EventManager/event_handler.h>
+#include "../../../TlmCmd/block_command_definitions.h"
+#include "../../../TlmCmd/block_command_definitions.h"
+#include "../../../IfWrapper/uart_user.h"
+
+#include "../../../Applications/UserDefined/Cdh/uart_fault_recovery.h"
+#include "../../../Applications/UserDefined/Cdh/mode_monitor.h"
+#include "../../../Applications/UserDefined/Power/under_voltage_control_utility.h"
+#include "../../../Applications/UserDefined/Power/under_voltage_control.h"
+#include "../../../Applications/UserDefined/Power/over_current.h"
+#include "../../../Applications/UserDefined/Thermal/mobc_temperature_monitor.h"
+#include "../../../Applications/UserDefined/Thermal/high_temperature_deviation_control.h"
+#include "../../../Applications/UserDefined/Thermal/bat_heater_control.h"
+#include "../../../Applications/UserDefined/Mission/mission_sequence.h"
+#include "../../../Applications/UserDefined/Mission/rsi_sun_angle.h"
+#include "../../../Applications/UserDefined/Com/comm_fdir.h"
+"""
+)
+
 # cmd
 c2a_generator.cmd_def_c.generate(
     root_path / "design/cmd.csv",
@@ -101,4 +131,15 @@ c2a_generator.wings_json.generate(
     bct_src,
     root_path
     / "../../../wings/aspnetapp/WINGS/ClientApp/src/assets/alias/c2a_onglai.json",
+    eh_src=root_path / "design/eh.csv",
+    eh_base_id=9,
+    eh_list=[],
+)
+
+c2a_generator.wings_json.generate(
+    bct_src,
+    root_path / "database/c2a_onglai.json",
+    eh_src=root_path / "design/eh.csv",
+    eh_base_id=9,
+    eh_list=[],
 )

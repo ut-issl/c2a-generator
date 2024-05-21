@@ -1,0 +1,69 @@
+prerelease: true
+
+# Filter previous releases considering target_commitish
+include-pre-releases: true
+filter-by-commitish: true
+
+# Versioning configuration
+tag: "v0.0.0"
+
+categories:
+  - title: 'BREAKING CHANGES'
+    labels:
+      - 'breaking'
+  - title: '💎 Features'
+    labels:
+      - 'feature'
+  - title: '🚀 Improvement'
+    labels:
+      - 'enhancement'
+  - title: '🐛 Bug Fixes'
+    labels:
+      - 'bug'
+  - title: '🧰 Maintenance'
+    labels:
+      - 'support'
+      - 'dependencies'
+  - title: '🧹 Chore'
+    labels:
+      - 'chore'
+
+category-template: '### $TITLE'
+
+change-title-escapes: '\<*_&#@`'  # Updated to disable mentions and code blocks
+
+autolabeler:
+  - label: 'feature'
+    branch:
+      - '/^feat\/.+/'
+  - label: 'enhancement'
+    branch:
+      - '/^refac\/.+/'
+  - label: 'bug'
+    branch:
+      - '/^fix\/.+/'
+    title:
+      - '/^fix/i'
+  - label: 'support'
+    branch:
+      - '/^support\/.+/'
+    title:
+      - '/^support/i'
+      - '/^chore/i'
+      - '/^ci/i'
+      - '/^docs/i'
+      - '/^test/i'
+
+include-labels:
+  - breaking
+  - feature
+  - enhancement
+  - bug
+  - support
+  - dependencies
+
+exclude-labels:
+  - 'exclude-from-changelog'
+
+template: |
+  $CHANGES
