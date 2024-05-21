@@ -37,10 +37,6 @@ jobs:
         yarn global add node-gyp
         yarn --frozen-lockfile
 
-    - name: Read version from VERSION file
-      id: version
-      run: echo "::set-output name=project_version::$(cat VERSION)"
-
     - name: Read version from pyproject.toml
       id: version
       run: |
