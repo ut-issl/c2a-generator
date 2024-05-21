@@ -1,0 +1,4 @@
+[tlm]
+src_path="../../sils-docker/sils/FlightSW/c2a-tobc/database/TLM_DB"
+dest_path="../tlm/ong_tobc"
+src_prefix="ISSL6U_TOBC_TLM_DB_"

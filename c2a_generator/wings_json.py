@@ -26,9 +26,6 @@ def generate(
     aobc_csv_path: Optional[Path] = None,
     tobc_csv_path: Optional[Path] = None,
     mif_csv_path: Optional[Path] = None,
-    eh_src: Optional[Path] = None,
-    eh_base_id: int = 0,
-    eh_list: list = [],
 ) -> None:
     data = []
     if aobc_csv_path:
@@ -40,20 +37,7 @@ def generate(
     if mif_csv_path:
         mif_bc_dict = csv_to_json(mif_csv_path)
         data.append({"obc_name": "MIF", "bc": mif_bc_dict, "el": [], "eh": []})
-    if eh_src:
-        with open(eh_src, "r", encoding="utf-8") as src_file:
-            reader = csv.reader(src_file)
-            headers = next(reader)
-            dict_reader = csv.DictReader(src_file, fieldnames=headers)
-
-            for row in dict_reader:
-                if not any(row):
-                    continue
-                if not row["name"].strip():
-                    continue
-                eh_list.append({"name": row["name"], "id": eh_base_id})
-                eh_base_id += 1
-    data.append({"obc_name": "MOBC", "bc": [], "el": [], "eh": eh_list})
+    data.append({"obc_name": "MOBC", "bc": [], "el": [], "eh": []})
     bcid = 0
     for src_path, bcid_base in bct_src:
         if bcid_base is not None:
