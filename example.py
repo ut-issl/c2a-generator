@@ -10,7 +10,7 @@ root_path = (
 c2a_generator.eh_rules_h.generate(
     root_path / "design/eh.csv",
     root_path / "src/src_user/Settings/System/EventHandlerRules/event_handler_rules.h",
-    base_id=9
+    base_id=9,
 )
 c2a_generator.eh_rules_c.generate(
     root_path / "design/eh.csv",
@@ -33,7 +33,7 @@ c2a_generator.eh_rules_c.generate(
 #include "../../../Applications/UserDefined/Mission/mission_sequence.h"
 #include "../../../Applications/UserDefined/Mission/rsi_sun_angle.h"
 #include "../../../Applications/UserDefined/Com/comm_fdir.h"
-"""
+""",
 )
 
 # cmd
@@ -131,15 +131,17 @@ c2a_generator.wings_json.generate(
     bct_src,
     root_path
     / "../../../wings/aspnetapp/WINGS/ClientApp/src/assets/alias/c2a_onglai.json",
+    el_src=root_path / "design/el.csv",
+    cmd_src=root_path / "design/cmd.csv",
     eh_src=root_path / "design/eh.csv",
     eh_base_id=9,
-    eh_list=[],
 )
 
 c2a_generator.wings_json.generate(
     bct_src,
     root_path / "database/c2a_onglai.json",
+    el_src=root_path / "design/el.csv",
+    cmd_src=root_path / "design/cmd.csv",
     eh_src=root_path / "design/eh.csv",
     eh_base_id=9,
-    eh_list=[],
 )
