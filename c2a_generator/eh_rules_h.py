@@ -29,11 +29,15 @@ typedef enum
         reader = csv.reader(csv_file)
         headers = next(reader)
         dict_reader = csv.DictReader(csv_file, fieldnames=headers)
+        name_list = []
         for row in dict_reader:
             if not any(row):
                 continue
             try:
+                if row["name"] in name_list:
+                    continue
                 header_file.write(f'  {row["name"]} = {base_id},\n')
+                name_list.append(row["name"])
                 base_id += 1
             except ValueError:
                 continue
