@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.1 - 2024-05-23
+
+### 🐛 Bug Fixes
+
+* fix: Resolve issue of duplicate definitions in header file (#88) @flap1
+
 ## v0.1.0 - 2024-05-21
 
 ### 💎 Features
