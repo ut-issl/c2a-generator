@@ -40,7 +40,7 @@ void EH_load_default_rules(void)
             code += f"  settings.condition.count_threshold = {row['count_threshold']};\n"
             code += f"  settings.condition.time_threshold_ms = {int(float(row['time_threshold[s]']) * 1000)};\n"
             code += f"  settings.deploy_bct_id = {row['bc']};\n"
-            code += f"  settings.is_active = {1 if row['should_match_err_level'] == 'TRUE' else 0};\n"
+            code += f"  settings.is_active = {1 if row['is_active'] == 'TRUE' else 0};\n"
             code += f"  EH_register_rule({row['name']}, &settings);\n\n"
             src_file.write(code)
         src_file.write(
