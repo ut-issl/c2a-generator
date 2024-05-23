@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.2 - 2024-05-23
+
+### 💎 Features
+
+* feat: Include EL list in wings_json (#91) @flap1
+
 ## v0.1.1 - 2024-05-23
 
 ### 🐛 Bug Fixes
