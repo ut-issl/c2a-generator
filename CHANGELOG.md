@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.3 - 2024-05-23
+
+### 🐛 Bug Fixes
+
+* fix: Resolve issue where EH is_active is not reflected (#94) @flap1
+
 ## v0.1.2 - 2024-05-23
 
 ### 💎 Features
