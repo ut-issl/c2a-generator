@@ -1,6 +1,6 @@
 [project]
 name = "c2a_generator"
-version = "0.1.3"
+version = "0.1.4"
 description = "Add your description here"
 authors = [
     { name = "flap1", email = "sho1seto@gmail.com" }
