@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.4 - 2024-05-26
+
+### 💎 Features
+
+* feat: Add support for int64_t and uint64_t (#97) @flap1
+
 ## v0.1.3 - 2024-05-23
 
 ### 🐛 Bug Fixes
