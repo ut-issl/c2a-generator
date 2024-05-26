@@ -70,7 +70,7 @@ def generate(src_path: Path, dest_path: Path) -> None:
             "uint8_t": ("TF_copy_u8", 1),
             "uint16_t": ("TF_copy_u16", 2),
             "uint32_t": ("TF_copy_u32", 4),
-            "uint64_t": {"TF_copy_u64", 8},
+            "uint64_t": ("TF_copy_u64", 8),
             "float": ("TF_copy_float", 4),
             "double": ("TF_copy_double", 8),
         }
