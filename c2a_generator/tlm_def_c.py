@@ -66,9 +66,11 @@ def generate(src_path: Path, dest_path: Path) -> None:
             "int8_t": ("TF_copy_i8", 1),
             "int16_t": ("TF_copy_i16", 2),
             "int32_t": ("TF_copy_i32", 4),
+            "int64_t": {"TF_copy_i64", 8},
             "uint8_t": ("TF_copy_u8", 1),
             "uint16_t": ("TF_copy_u16", 2),
             "uint32_t": ("TF_copy_u32", 4),
+            "uint64_t": {"TF_copy_u64", 8},
             "float": ("TF_copy_float", 4),
             "double": ("TF_copy_double", 8),
         }
