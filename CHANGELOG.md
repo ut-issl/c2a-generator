@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.5 - 2024-05-26
+
+### 🐛 Bug Fixes
+
+* fix: uint64_t bug (#99) @flap1
+
 ## v0.1.4 - 2024-05-26
 
 ### 💎 Features
