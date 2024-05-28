@@ -10,6 +10,8 @@ def csv_to_json(csv_file: Path):
     with open(csv_file, "r") as file:
         reader = csv.DictReader(file)
         for row in reader:
+            if row[headers[0]].startswith('#'):
+                continue
             if row["Comment"]:
                 continue
             elif row["Name"].startswith("BC_"):
@@ -51,6 +53,8 @@ def generate(
             dict_reader = csv.DictReader(src_file, fieldnames=headers)
 
             for row in dict_reader:
+                if row[headers[0]].startswith('#'):
+                    continue
                 if not any(row):
                     continue
                 if not row["name"].strip():
@@ -74,6 +78,8 @@ def generate(
                     )
                     code = 0
                     for cmd_row in cmd_dict_reader:
+                        if row[headers[0]].startswith('#'):
+                            continue
                         if not any(cmd_row):
                             continue
                         if cmd_row["enabled"] == "TRUE":
@@ -95,6 +101,8 @@ def generate(
                     eh_header = next(eh_reader)
                     eh_dict_reader = csv.DictReader(eh_src_file, fieldnames=eh_header)
                     for eh_row in eh_dict_reader:
+                        if row[headers[0]].startswith('#'):
+                            continue
                         if not any(eh_row):
                             continue
                         EH_LIST.append({"name": eh_row["name"], "local_id": int(eh_id)})
@@ -107,6 +115,8 @@ def generate(
                 el_header = next(el_reader)
                 el_dict_reader = csv.DictReader(el_src_file, fieldnames=el_header)
                 for el_row in el_dict_reader:
+                    if row[headers[0]].startswith('#'):
+                        continue
                     if not el_row["group_id"].strip():
                         continue
                     EL_LIST.append(
@@ -163,6 +173,8 @@ def generate(
             dict_reader = csv.DictReader(src_file, fieldnames=headers)
 
             for row in dict_reader:
+                if row[headers[0]].startswith('#'):
+                    continue
                 if not any(row):
                     continue
                 if not row["name"].strip():

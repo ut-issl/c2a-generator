@@ -90,6 +90,8 @@ typedef struct
                 headers = next(reader)
                 dict_reader = csv.DictReader(file, fieldnames=headers)
                 for row in dict_reader:
+                    if row[headers[0]].startswith('#'):
+                        continue
                     if not any(row.values()):
                         continue
                     if row["type"] == "":

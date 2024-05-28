@@ -26,6 +26,8 @@ Comment,Name,ShortName,BCID,エイリアス,,,,,Danger Flag,Description,Note
                 dict_reader = csv.DictReader(src_file, fieldnames=headers)
 
                 for row in dict_reader:
+                    if row[headers[0]].startswith('#'):
+                        continue
                     row["description"] = row["description"].replace(",", "@@").replace("\n", "##") if row["description"] else ""
                     row["note"] = row["note"].replace(",", "@@").replace("\n", "##") if row["note"] else ""
                     if not any(row):
