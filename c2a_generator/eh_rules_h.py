@@ -31,6 +31,8 @@ typedef enum
         dict_reader = csv.DictReader(csv_file, fieldnames=headers)
         name_list = []
         for row in dict_reader:
+            if row[headers[0]].startswith('#'):
+                continue
             if not any(row):
                 continue
             try:

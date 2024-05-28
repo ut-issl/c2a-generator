@@ -26,6 +26,8 @@ typedef enum
         dict_reader = csv.DictReader(csv_file, fieldnames=headers)
         code = 0
         for row in dict_reader:
+            if row[headers[0]].startswith('#'):
+                continue
             if not any(row):
                 continue
             if row["enabled"] == "TRUE":

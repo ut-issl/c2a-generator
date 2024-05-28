@@ -98,6 +98,8 @@ def generate(src_path: Path, dest_path: Path) -> None:
                 is_bit_shift, bit_shift_type = False, ""
                 bit_shift_func_list: List[tuple] = []
                 for row in dict_reader:
+                    if row[headers[0]].startswith('#'):
+                        continue
                     if not any(row.values()):
                         continue
                     if is_bit_shift and row["type"]:

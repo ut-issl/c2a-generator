@@ -71,6 +71,8 @@ Comment,TLM Entry,Onboard Software Info.,,Extraction Info.,,,,Conversion Info.,,
         for row in dict_reader:
             for key in ["var", "status", "description", "note"]:
                 row[key] = row[key].replace("\n", "##").replace(",", "@@")
+            if row[headers[0]].startswith('#'):
+                continue
             if not any(row):
                 line_index += 1
                 continue
