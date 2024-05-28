@@ -94,6 +94,7 @@ def generate(
                     eh_reader = csv.reader(eh_src_file)
                     eh_header = next(eh_reader)
                     eh_dict_reader = csv.DictReader(eh_src_file, fieldnames=eh_header)
+                    for eh_row in eh_dict_reader:
                         if not any(eh_row):
                             continue
                         EH_LIST.append({"name": eh_row["name"], "local_id": int(eh_id)})
