@@ -79,12 +79,12 @@ def generate(
                         if cmd_row["enabled"] == "TRUE":
                             try:
                                 cmd_row["code"] = f"0x{int(code):04X}"
+                                CMD_LIST.append({"name": cmd_row["name"], "local_id": code})
                                 code += 1
                                 if code == 496:  # 0x1F0, 0x1F1 を回避する
                                     code += 2
                             except ValueError:
                                 continue
-                            CMD_LIST.append({"name": cmd_row["name"], "local_id": code})
 
             # EH の取得
             EH_LIST = []
