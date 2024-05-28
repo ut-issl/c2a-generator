@@ -77,6 +77,8 @@ void BC_load_defaults(void)
                 dict_reader = csv.DictReader(csv_file, fieldnames=headers)
                 is_init = True
                 for row in dict_reader:
+                    if row[headers[0]].startswith('#'):
+                        continue
                     if not any(row):
                         continue
                     if not row["name"].strip():

@@ -119,6 +119,8 @@ static DS_ERR_CODE {obc_name}_analyze_tlm_{tlm_name.lower()}_(const CommonTlmPac
                 pos_sum = 0
                 last_var_type = ""
                 for row in dict_reader:
+                    if row[headers[0]].startswith('#'):
+                        continue
                     is_compression = False
                     octet_pos = pos_sum // 8
                     bit_pos = pos_sum % 8

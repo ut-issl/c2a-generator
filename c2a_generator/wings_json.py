@@ -51,6 +51,8 @@ def generate(
             dict_reader = csv.DictReader(src_file, fieldnames=headers)
 
             for row in dict_reader:
+                if row[headers[0]].startswith('#'):
+                    continue
                 if not any(row):
                     continue
                 if not row["name"].strip():
@@ -79,12 +81,12 @@ def generate(
                         if cmd_row["enabled"] == "TRUE":
                             try:
                                 cmd_row["code"] = f"0x{int(code):04X}"
+                                CMD_LIST.append({"name": cmd_row["name"], "local_id": code})
                                 code += 1
                                 if code == 496:  # 0x1F0, 0x1F1 を回避する
                                     code += 2
                             except ValueError:
                                 continue
-                            CMD_LIST.append({"name": cmd_row["name"], "local_id": code})
 
             # EH の取得
             EH_LIST = []
@@ -118,6 +120,8 @@ def generate(
 
             last_el_dict = {}
             for row in dict_reader:
+                if row[headers[0]].startswith('#'):
+                    continue
                 if not any(row):
                     continue
                 if row["group_name"].strip():
@@ -163,6 +167,8 @@ def generate(
             dict_reader = csv.DictReader(src_file, fieldnames=headers)
 
             for row in dict_reader:
+                if row[headers[0]].startswith('#'):
+                    continue
                 if not any(row):
                     continue
                 if not row["name"].strip():
