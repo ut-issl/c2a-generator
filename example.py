@@ -1,6 +1,12 @@
 from pathlib import Path
 
 import c2a_generator
+import importlib.metadata
+
+C2A_GENERATOR_VERSION = "0.1.7"
+assert (
+    importlib.metadata.version("c2a_generator") == C2A_GENERATOR_VERSION
+), "Please run 'rye sync'"
 
 root_path = (
     Path(__file__).parent.parent / "sils-docker/sils/FlightSW/c2a-mobc-onglaisat"
