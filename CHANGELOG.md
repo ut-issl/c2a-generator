@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.7 - 2024-08-07
+
+### 💎 Features
+
+* feat: Prepare repository for public release (#105) @flap1
+
 ## v0.1.6 - 2024-05-28
 
 ### 💎 Features
