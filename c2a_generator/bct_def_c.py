@@ -19,7 +19,21 @@ def generate(bct_src: list, dest_path: Path, bc_header_header: str) -> None:
  * @brief  ブロックコマンド定義
  * @note   このコードは自動生成されています！
  */
+#include "block_command_definitions.h"
+#include <src_core/tlm_cmd/block_command_loader.h>
 #include <src_core/tlm_cmd/block_command_table.h>
+#include <string.h> // for memcpy
+#include "command_definitions.h"
+
+#include "../../applications/app_registry.h"
+#include "../telemetry_definitions.h"
+#include "../settings/modes/transitions/sl_initial.h"
+#include "../settings/modes/transitions/sl_nop.h"
+#include "../settings/modes/task_lists/tl_initial.h"
+#include "../settings/modes/task_lists/elements/tl_elem_tlm_cmd_hirate.h"
+#include "../settings/modes/task_lists/elements/tl_elem_debug_display.h"
+#include "../settings/modes/task_lists/elements/tl_elem_gs_related_process.h"
+#include "./normal_block_command_definition/nbc_header.h"
 
 /**
  * @brief
