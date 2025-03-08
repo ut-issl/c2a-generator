@@ -41,7 +41,7 @@ c2a_generator.cmd_def_h.generate(
 )
 c2a_generator.cmd_csv.generate(
     root_path / "design/cmd.csv",
-    root_path / "database/CMD_DB/ISSL6U_MOBC_CMD_DB_CMD_DB.csv",
+    root_path / "database/CMD_DB/FUNADE_MOBC_CMD_DB_CMD_DB.csv",
 )
 
 # bct
@@ -101,7 +101,7 @@ c2a_generator.bct_def_h.generate(
     bct_src, root_path / "src/src_user/tlm_cmd/block_command_definitions.h"
 )
 c2a_generator.bct_csv.generate(
-    bct_src, root_path / "database/CMD_DB/ISSL6U_MOBC_CMD_DB_BCT.csv"
+    bct_src, root_path / "database/CMD_DB/FUNADE_MOBC_CMD_DB_BCT.csv"
 )
 
 # tlm
@@ -113,7 +113,7 @@ c2a_generator.tlm_def_c.generate(
     tlm_path, root_path / "src/src_user/tlm_cmd/telemetry_definitions.c"
 )
 c2a_generator.tlm_csv.generate(
-    tlm_path, root_path / "database/TLM_DB", prefix="ISSL6U_MOBC_TLM_DB_"
+    tlm_path, root_path / "database/TLM_DB", prefix="FUNADE_MOBC_TLM_DB_"
 )
 
 # wings

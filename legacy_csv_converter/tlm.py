@@ -14,7 +14,7 @@ logger.addHandler(handler)
 root_path = Path(__file__).parent.parent.parent / "sils-docker/sils/FlightSW/c2a-mobc-onglaisat"
 src_path = root_path / "database/TLM_DB"
 dest_path = Path(__file__).parent.parent / "tmp"
-src_prefix = "ISSL6U_MOBC_TLM_DB_"
+src_prefix = "FUNADE_MOBC_TLM_DB_"
 
 
 def transform_csv(src_path: Path, dest_path: Path) -> None:
