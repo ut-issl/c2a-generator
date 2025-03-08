@@ -25,7 +25,7 @@ def generate(bct_src: list, dest_path: Path, bc_header_header: str) -> None:
 #include <string.h> // for memcpy
 #include "command_definitions.h"
 
-#include "../../applications/app_registry.h"
+#include "../applications/app_registry.h"
 #include "../telemetry_definitions.h"
 #include "../settings/modes/transitions/sl_initial.h"
 #include "../settings/modes/transitions/sl_nop.h"
@@ -75,7 +75,7 @@ void BC_load_defaults(void)
  * @note   このコードは自動生成されています！
  */
 #include "nbc_header.h"
-#include "../../applications/app_registry.h"
+#include "../applications/app_registry.h"
 #include "../telemetry_definitions.h"
 
 """[1:]
