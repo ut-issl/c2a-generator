@@ -20,8 +20,8 @@ def generate(src_path: Path, dest_path: Path, obc_name: str, driver_type: str, d
 
 #include "./{obc_name.lower()}_telemetry_definitions.h"
 #include <src_core/Drivers/Super/driver_super.h>
-#include <src_core/TlmCmd/common_tlm_packet.h>
-#include <src_core/TlmCmd/telemetry_frame.h>
+#include <src_core/tlm_cmd/common_tlm_packet.h>
+#include <src_core/tlm_cmd/telemetry_frame.h>
 
 typedef struct {driver_type} {driver_type};
 

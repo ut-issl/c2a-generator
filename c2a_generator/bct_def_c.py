@@ -5,8 +5,8 @@ from pathlib import Path
 def generate(bct_src: list, dest_path: Path, bc_header_header: str) -> None:
     assert dest_path.parent.exists(), f"{dest_path} does not exist"
 
-    bc_definition_folder_path = dest_path.parent / "BlockCommandDefinition"
-    bc_header_path = bc_definition_folder_path / "bc_header.h"
+    bc_definition_folder_path = dest_path.parent / "normal_block_command_definition"
+    bc_header_path = bc_definition_folder_path / "nbc_header.h"
 
     with open(dest_path, "w", encoding="utf-8") as header_file, open(
         bc_header_path, "w", encoding="utf-8"
@@ -20,13 +20,13 @@ def generate(bct_src: list, dest_path: Path, bc_header_header: str) -> None:
  * @note   このコードは自動生成されています！
  */
 #include "block_command_definitions.h"
-#include <src_core/TlmCmd/block_command_loader.h>
-#include <src_core/TlmCmd/block_command_table.h>
-#include <src_core/System/WatchdogTimer/watchdog_timer.h>
+#include <src_core/tlm_cmd/block_command_loader.h>
+#include <src_core/tlm_cmd/block_command_table.h>
+#include <src_core/System/watchdog_timer/watchdog_timer.h>
 #include <string.h>
 #include "command_definitions.h"
 
-#include "./BlockCommandDefinition/bc_header.h"
+#include "./normal_block_command_definition/nbc_header.h"
 
 /**
  * @brief

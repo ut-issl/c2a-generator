@@ -26,7 +26,7 @@ def generate(src_path: str, dest_path: Path) -> None:
  * @brief  コマンド定義
  * @note   このコードは自動生成されています！
  */
-#include <src_core/TlmCmd/command_analyze.h>
+#include <src_core/tlm_cmd/command_analyze.h>
 #include "command_definitions.h"
 #include "command_source.h"
 

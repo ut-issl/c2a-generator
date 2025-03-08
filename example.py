@@ -24,8 +24,8 @@ c2a_generator.eh_rules_c.generate(
     eh_header="""
 #include "event_handler_rules.h"
 #include <src_core/System/EventManager/event_handler.h>
-#include "../../../TlmCmd/block_command_definitions.h"
-#include "../../../TlmCmd/block_command_definitions.h"
+#include "../../../tlm_cmd/block_command_definitions.h"
+#include "../../../tlm_cmd/block_command_definitions.h"
 #include "../../../IfWrapper/uart_user.h"
 """,
 )
@@ -33,11 +33,11 @@ c2a_generator.eh_rules_c.generate(
 # cmd
 c2a_generator.cmd_def_c.generate(
     root_path / "design/cmd.csv",
-    root_path / "src/src_user/TlmCmd/command_definitions.c",
+    root_path / "src/src_user/tlm_cmd/command_definitions.c",
 )
 c2a_generator.cmd_def_h.generate(
     root_path / "design/cmd.csv",
-    root_path / "src/src_user/TlmCmd/command_definitions.h",
+    root_path / "src/src_user/tlm_cmd/command_definitions.h",
 )
 c2a_generator.cmd_csv.generate(
     root_path / "design/cmd.csv",
@@ -68,10 +68,10 @@ bct_src = [
     [root_path / "design/bct/bc_mram_triple.csv", 1270],
 ]
 bc_header_header = """
-#include <src_core/TlmCmd/block_command_table.h>
-#include <src_core/TlmCmd/block_command_loader.h>
-#include <src_core/TlmCmd/common_tlm_packet.h>
-#include <src_core/TlmCmd/common_cmd_packet.h>
+#include <src_core/tlm_cmd/block_command_table.h>
+#include <src_core/tlm_cmd/block_command_loader.h>
+#include <src_core/tlm_cmd/common_tlm_packet.h>
+#include <src_core/tlm_cmd/common_cmd_packet.h>
 #include <src_core/System/TimeManager/obc_time.h>
 #include <src_core/System/TimeManager/time_manager.h>
 #include <src_core/System/EventManager/event_logger.h>
@@ -94,11 +94,11 @@ bc_header_header = """
 
 c2a_generator.bct_def_c.generate(
     bct_src,
-    root_path / "src/src_user/TlmCmd/block_command_definitions.c",
+    root_path / "src/src_user/tlm_cmd/block_command_definitions.c",
     bc_header_header,
 )
 c2a_generator.bct_def_h.generate(
-    bct_src, root_path / "src/src_user/TlmCmd/block_command_definitions.h"
+    bct_src, root_path / "src/src_user/tlm_cmd/block_command_definitions.h"
 )
 c2a_generator.bct_csv.generate(
     bct_src, root_path / "database/CMD_DB/ISSL6U_MOBC_CMD_DB_BCT.csv"
@@ -107,10 +107,10 @@ c2a_generator.bct_csv.generate(
 # tlm
 tlm_path = root_path / "design/tlm"
 c2a_generator.tlm_def_h.generate(
-    tlm_path, root_path / "src/src_user/TlmCmd/telemetry_definitions.h"
+    tlm_path, root_path / "src/src_user/tlm_cmd/telemetry_definitions.h"
 )
 c2a_generator.tlm_def_c.generate(
-    tlm_path, root_path / "src/src_user/TlmCmd/telemetry_definitions.c"
+    tlm_path, root_path / "src/src_user/tlm_cmd/telemetry_definitions.c"
 )
 c2a_generator.tlm_csv.generate(
     tlm_path, root_path / "database/TLM_DB", prefix="ISSL6U_MOBC_TLM_DB_"
