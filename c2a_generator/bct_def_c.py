@@ -69,7 +69,7 @@ void BC_load_defaults(void)
  * @note   このコードは自動生成されています！
  */
 #include "nbc_header.h"
-#include "../applications/app_registry.h"
+#include "../../applications/app_registry.h"
 #include "./telemetry_definitions.h"
 
 """[1:]
