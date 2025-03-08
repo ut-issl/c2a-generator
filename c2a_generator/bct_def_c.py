@@ -27,12 +27,6 @@ def generate(bct_src: list, dest_path: Path, bc_header_header: str) -> None:
 
 #include "../applications/app_registry.h"
 #include "./telemetry_definitions.h"
-#include "../settings/modes/transitions/sl_initial.h"
-#include "../settings/modes/transitions/sl_nop.h"
-#include "../settings/modes/task_lists/tl_initial.h"
-#include "../settings/modes/task_lists/elements/tl_elem_tlm_cmd_hirate.h"
-#include "../settings/modes/task_lists/elements/tl_elem_debug_display.h"
-#include "../settings/modes/task_lists/elements/tl_elem_gs_related_process.h"
 #include "./normal_block_command_definition/nbc_header.h"
 
 /**
