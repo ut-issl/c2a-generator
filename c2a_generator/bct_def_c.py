@@ -70,7 +70,7 @@ void BC_load_defaults(void)
  */
 #include "nbc_header.h"
 #include "../../applications/app_registry.h"
-#include "./telemetry_definitions.h"
+#include "../telemetry_definitions.h"
 
 """[1:]
                 )
