@@ -19,14 +19,7 @@ def generate(bct_src: list, dest_path: Path, bc_header_header: str) -> None:
  * @brief  ブロックコマンド定義
  * @note   このコードは自動生成されています！
  */
-#include "block_command_definitions.h"
-#include <src_core/tlm_cmd/block_command_loader.h>
 #include <src_core/tlm_cmd/block_command_table.h>
-#include <src_core/System/watchdog_timer/watchdog_timer.h>
-#include <string.h>
-#include "command_definitions.h"
-
-#include "./normal_block_command_definition/nbc_header.h"
 
 /**
  * @brief
@@ -43,8 +36,8 @@ void BC_load_defaults(void)
  * @brief  ブロックコマンド定義
  * @note   このコードは自動生成されています！
  */
-#ifndef BC_HEADER_H_
-#define BC_HEADER_H_
+#ifndef NBC_HEADER_H_
+#define NBC_HEADER_H_
 
 {bc_header_header}
 """[1:]
@@ -67,7 +60,7 @@ void BC_load_defaults(void)
  * @brief  ブロックコマンド定義
  * @note   このコードは自動生成されています！
  */
-#include "bc_header.h"
+#include "nbc_header.h"
 
 """[1:]
                 )

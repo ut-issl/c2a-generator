@@ -38,6 +38,7 @@ def generate(src_path: Path, dest_path: Path) -> None:
  * @note   このコードは自動生成されています！
  */
 #include <src_core/tlm_cmd/telemetry_frame.h>
+#include <src_core/library/git_revision.h>
 #include "telemetry_definitions.h"
 #include "telemetry_source.h"
 
