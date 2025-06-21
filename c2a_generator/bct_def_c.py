@@ -2,7 +2,7 @@ import csv
 from pathlib import Path
 
 
-def generate(bct_src: list, dest_path: Path, bc_header_path: Path, include_bc_def: str, include_bc_header: str) -> None:
+def generate(bct_src: list, dest_path: Path, bc_header_path: Path, include_bc_def: str, include_each_bc: str, include_bc_header: str) -> None:
     assert dest_path.parent.exists(), f"{dest_path} does not exist"
 
     bc_definition_folder_path = bc_header_path.parent
@@ -55,14 +55,14 @@ void BC_load_defaults(void)
                 dest_c_path, "w", encoding="utf-8"
             ) as c_file:
                 c_file.write(
-                    """
+                    f"""
 #pragma section REPRO
 /**
  * @file
  * @brief  ブロックコマンド定義
  * @note   このコードは自動生成されています！
  */
-#include "bc_header.h"
+{include_each_bc}
 
 """[1:]
                 )
