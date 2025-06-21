@@ -16,7 +16,7 @@ conv_type = {
 }
 
 
-def generate(src_path: Path, dest_path: Path, obc_name: str, driver_type: str, driver_name: str, code_when_tlm_not_found: str) -> None:
+def generate(src_path: Path, dest_path: Path, include: str, obc_name: str, driver_type: str, driver_name: str, code_when_tlm_not_found: str) -> None:
     file_blob_url = get_git_file_blob_url(src_path)
     assert dest_path.parent.exists(), f"{dest_path} does not exist"
     with open(dest_path, "w", encoding="utf-8") as dest_file:
@@ -29,16 +29,8 @@ def generate(src_path: Path, dest_path: Path, obc_name: str, driver_type: str, d
  * @note   このコードは自動生成されています！
  * @src    {file_blob_url}
  */
-#include <src_core/Drivers/Protocol/common_tlm_cmd_packet_for_driver_super.h>
-#include "./{obc_name.lower()}_telemetry_definitions.h"
-#include "./{obc_name.lower()}_telemetry_buffer.h"
-#include "./{obc_name.lower()}.h"
-#include <string.h>
-
-"""[
-                1:
-            ]
-        )
+{include}
+"""[1:])
         csv_files = [csv_file for csv_file in src_path.glob("*.csv")]
 
         def sort_key(csv_file: Path) -> Union[int, float]:
