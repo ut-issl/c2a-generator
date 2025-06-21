@@ -29,10 +29,15 @@ c2a_generator.eh_rules_c.generate(
 #include "../../../IfWrapper/uart_user.h"
 """,
 )
-
+include_cmd_def = """
+#include <src_core/TlmCmd/command_analyze.h>
+#include "command_definitions.h"
+#include "command_source.h"
+"""[1:]
 # cmd
 c2a_generator.cmd_def_c.generate(
     root_path / "design/cmd.csv",
+    include_cmd_def,
     root_path / "src/src_user/TlmCmd/command_definitions.c",
 )
 c2a_generator.cmd_def_h.generate(
@@ -67,7 +72,17 @@ bct_src = [
     [root_path / "design/bct/bc_mram.csv", 1142],
     [root_path / "design/bct/bc_mram_triple.csv", 1270],
 ]
-bc_header_header = """
+include_bc_def = """
+#include "block_command_definitions.h"
+#include <src_core/TlmCmd/block_command_loader.h>
+#include <src_core/TlmCmd/block_command_table.h>
+#include <src_core/System/WatchdogTimer/watchdog_timer.h>
+#include <string.h>
+#include "command_definitions.h"
+
+#include "./BlockCommandDefinition/bc_header.h"
+"""[1:]
+include_bc_header = """
 #include <src_core/TlmCmd/block_command_table.h>
 #include <src_core/TlmCmd/block_command_loader.h>
 #include <src_core/TlmCmd/common_tlm_packet.h>
@@ -95,7 +110,8 @@ bc_header_header = """
 c2a_generator.bct_def_c.generate(
     bct_src,
     root_path / "src/src_user/TlmCmd/block_command_definitions.c",
-    bc_header_header,
+    include_bc_def,
+    include_bc_header,
 )
 c2a_generator.bct_def_h.generate(
     bct_src, root_path / "src/src_user/TlmCmd/block_command_definitions.h"

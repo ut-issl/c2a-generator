@@ -2,7 +2,7 @@ import csv
 from pathlib import Path
 
 
-def generate(bct_src: list, dest_path: Path, bc_header_header: str) -> None:
+def generate(bct_src: list, dest_path: Path, include_bc_def: str, include_bc_header: str) -> None:
     assert dest_path.parent.exists(), f"{dest_path} does not exist"
 
     bc_definition_folder_path = dest_path.parent / "BlockCommandDefinition"
@@ -12,22 +12,18 @@ def generate(bct_src: list, dest_path: Path, bc_header_header: str) -> None:
         bc_header_path, "w", encoding="utf-8"
     ) as bc_header_file:
         header_file.write(
-            """
+            f"""
 #pragma section REPRO
 /**
  * @file
  * @brief  ブロックコマンド定義
  * @note   このコードは自動生成されています！
  */
-#include "block_command_definitions.h"
-#include <src_core/TlmCmd/block_command_loader.h>
-#include <src_core/TlmCmd/block_command_table.h>
-#include <src_core/System/WatchdogTimer/watchdog_timer.h>
-#include <string.h>
-#include "command_definitions.h"
-
-#include "./BlockCommandDefinition/bc_header.h"
-
+{include_bc_def}
+"""[1:]
+        )
+        header_file.write(
+            """
 /**
  * @brief
  * 各ブロックコマンドIDに中身の初期値をロードしていく
@@ -46,7 +42,7 @@ void BC_load_defaults(void)
 #ifndef BC_HEADER_H_
 #define BC_HEADER_H_
 
-{bc_header_header}
+{include_bc_header}
 """[1:]
         )
         bc_num = 1
