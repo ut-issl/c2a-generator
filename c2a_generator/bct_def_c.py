@@ -2,11 +2,10 @@ import csv
 from pathlib import Path
 
 
-def generate(bct_src: list, dest_path: Path, include_bc_def: str, include_bc_header: str) -> None:
+def generate(bct_src: list, dest_path: Path, bc_header_path: Path, include_bc_def: str, include_bc_header: str) -> None:
     assert dest_path.parent.exists(), f"{dest_path} does not exist"
 
-    bc_definition_folder_path = dest_path.parent / "BlockCommandDefinition"
-    bc_header_path = bc_definition_folder_path / "bc_header.h"
+    bc_definition_folder_path = bc_header_path.parent
 
     with open(dest_path, "w", encoding="utf-8") as header_file, open(
         bc_header_path, "w", encoding="utf-8"
