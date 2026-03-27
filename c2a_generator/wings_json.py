@@ -30,6 +30,7 @@ def generate(
     el_src: Optional[Path] = None,
     eh_src: Optional[Path] = None,
     eh_base_id: int = 0,
+    obc_name: str = "MOBC",
 ) -> None:
     data = []
     el_list = []
@@ -155,7 +156,7 @@ def generate(
             else:
                 if last_el_dict:
                     el_list.append(last_el_dict)
-    data.append({"obc_name": "FOBC", "bc": [], "el": el_list, "eh": eh_list})
+    data.append({"obc_name": obc_name, "bc": [], "el": el_list, "eh": eh_list})
     bcid = 0
     for src_path, bcid_base in bct_src:
         if bcid_base is not None:

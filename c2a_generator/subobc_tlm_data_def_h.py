@@ -53,7 +53,7 @@ def generate(src_path: Path, dest_path: Path, obc_name: str) -> None:
             f"""
 /**
  * @file
- * @brief  バッファリングされているテレメをパースしてMOBC内でかんたんに利用できるようにするためのテレメデータ構造体定義
+ * @brief  バッファリングされているテレメをパースして{obc_name}内でかんたんに利用できるようにするためのテレメデータ構造体定義
  * @note   このコードは自動生成されています！
  * @src    {file_blob_url}
  */

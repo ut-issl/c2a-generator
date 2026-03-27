@@ -1,8 +1,7 @@
+import argparse
 import csv
 import logging
 from pathlib import Path
-
-import toml
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -11,10 +10,10 @@ formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(messag
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
-root_path = Path(__file__).parent.parent.parent / "sils-docker/sils/FlightSW/c2a-mobc-onglaisat"
-src_path = root_path / "database/TLM_DB"
-dest_path = Path(__file__).parent.parent / "tmp"
-src_prefix = "FUNADE_FOBC_TLM_DB_"
+DEFAULT_ROOT_PATH = Path(__file__).parent.parent.parent / "sils-docker/sils/FlightSW/c2a-mobc-onglaisat"
+DEFAULT_DEST_PATH = Path(__file__).parent.parent / "tmp"
+DEFAULT_OBC_NAME = "MOBC"
+DEFAULT_SRC_PREFIX_TEMPLATE = "ISSL6U_{obc_name}_TLM_DB_"
 
 
 def transform_csv(src_path: Path, dest_path: Path) -> None:
@@ -61,13 +60,28 @@ def transform_csv(src_path: Path, dest_path: Path) -> None:
             writer.writerow(["", name, type_, bit, var, conv, a0, a1, a2, a3, a4, a5, status, description, note, ""])
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Convert legacy telemetry CSV files into generator input CSV files.")
+    parser.add_argument("--root-path", type=Path, default=DEFAULT_ROOT_PATH)
+    parser.add_argument("--src-path", type=Path)
+    parser.add_argument("--dest-path", type=Path, default=DEFAULT_DEST_PATH)
+    parser.add_argument("--obc-name", default=DEFAULT_OBC_NAME)
+    parser.add_argument("--src-prefix")
+    return parser.parse_args()
+
+
 def main() -> None:
+    args = parse_args()
+    src_path = args.src_path or args.root_path / "database/TLM_DB"
+    dest_path = args.dest_path
+    src_prefix = args.src_prefix or DEFAULT_SRC_PREFIX_TEMPLATE.format(obc_name=args.obc_name)
+
     if not dest_path.exists():
         logger.info(f"Destination path {dest_path} does not exist. Creating...")
         dest_path.mkdir(parents=True)
 
     for src_file in src_path.glob(src_prefix + "*.csv"):
-        dest_file = dest_path / src_file.name.replace(src_prefix, "")
+        dest_file = dest_path / src_file.name.replace(src_prefix, "", 1)
         transform_csv(src_file, dest_file)
         logger.info(f"File {src_file.name} has been processed and saved to {dest_file}")
 

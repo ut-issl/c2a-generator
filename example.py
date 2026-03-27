@@ -8,6 +8,10 @@ assert (
     importlib.metadata.version("c2a_generator") == C2A_GENERATOR_VERSION
 ), "Please run 'rye sync'"
 
+OBC_NAME = "MOBC"
+CMD_DB_PREFIX = f"ISSL6U_{OBC_NAME}_CMD_DB_"
+TLM_DB_PREFIX = f"ISSL6U_{OBC_NAME}_TLM_DB_"
+
 root_path = (
     Path(__file__).parent.parent / "sils-docker/sils/FlightSW/c2a-mobc-onglaisat"
 )
@@ -41,7 +45,8 @@ c2a_generator.cmd_def_h.generate(
 )
 c2a_generator.cmd_csv.generate(
     root_path / "design/cmd.csv",
-    root_path / "database/CMD_DB/FUNADE_MOBC_CMD_DB_CMD_DB.csv",
+    root_path / f"database/CMD_DB/{CMD_DB_PREFIX}CMD_DB.csv",
+    obc_name=OBC_NAME,
 )
 
 # bct
@@ -101,7 +106,7 @@ c2a_generator.bct_def_h.generate(
     bct_src, root_path / "src/src_user/tlm_cmd/block_command_definitions.h"
 )
 c2a_generator.bct_csv.generate(
-    bct_src, root_path / "database/CMD_DB/FUNADE_MOBC_CMD_DB_BCT.csv"
+    bct_src, root_path / f"database/CMD_DB/{CMD_DB_PREFIX}BCT.csv"
 )
 
 # tlm
@@ -113,7 +118,7 @@ c2a_generator.tlm_def_c.generate(
     tlm_path, root_path / "src/src_user/tlm_cmd/telemetry_definitions.c"
 )
 c2a_generator.tlm_csv.generate(
-    tlm_path, root_path / "database/TLM_DB", prefix="FUNADE_MOBC_TLM_DB_"
+    tlm_path, root_path / "database/TLM_DB", prefix=TLM_DB_PREFIX
 )
 
 # wings
@@ -125,6 +130,7 @@ c2a_generator.wings_json.generate(
     cmd_src=root_path / "design/cmd.csv",
     eh_src=root_path / "design/eh.csv",
     eh_base_id=9,
+    obc_name=OBC_NAME,
 )
 
 c2a_generator.wings_json.generate(
@@ -134,4 +140,5 @@ c2a_generator.wings_json.generate(
     cmd_src=root_path / "design/cmd.csv",
     eh_src=root_path / "design/eh.csv",
     eh_base_id=9,
+    obc_name=OBC_NAME,
 )

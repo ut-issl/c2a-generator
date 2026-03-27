@@ -110,7 +110,7 @@ static DS_ERR_CODE {obc_name}_analyze_tlm_{tlm_name.lower()}_(const CommonTlmPac
   {driver_name}->tlm_buffer.tlm[tlm_id].is_null_packet = 0;
   // TODO: CRC チェック
 
-  // MOBC 内部でテレメデータへアクセスしやすいようにするための構造体へのパース"""
+  // {obc_name} 内部でテレメデータへアクセスしやすいようにするための構造体へのパース"""
             with open(tlm_path, "r", encoding="utf-8") as file:
                 reader = csv.reader(file)
                 next(reader)
