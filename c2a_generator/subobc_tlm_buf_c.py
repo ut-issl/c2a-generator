@@ -8,9 +8,11 @@ conv_type = {
     "int8_t": ("temp_i8", 1),
     "int16_t": ("temp_i16", 2),
     "int32_t": ("temp_i32", 4),
+    "int64_t": ("temp_i64", 4),
     "uint8_t": ("temp_u8", 1),
     "uint16_t": ("temp_u16", 2),
     "uint32_t": ("temp_u32", 4),
+    "uint64_t": ("temp_u64", 4),
     "float": ("temp_f", 4),
     "double": ("temp_d", 8),
 }
@@ -110,7 +112,7 @@ static DS_ERR_CODE {obc_name}_analyze_tlm_{tlm_name.lower()}_(const CommonTlmPac
   {driver_name}->tlm_buffer.tlm[tlm_id].is_null_packet = 0;
   // TODO: CRC チェック
 
-  // MOBC 内部でテレメデータへアクセスしやすいようにするための構造体へのパース"""
+  // {obc_name} 内部でテレメデータへアクセスしやすいようにするための構造体へのパース"""
             with open(tlm_path, "r", encoding="utf-8") as file:
                 reader = csv.reader(file)
                 next(reader)

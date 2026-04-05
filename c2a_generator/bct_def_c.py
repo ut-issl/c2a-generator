@@ -5,8 +5,8 @@ from pathlib import Path
 def generate(bct_src: list, dest_path: Path, bc_header_header: str) -> None:
     assert dest_path.parent.exists(), f"{dest_path} does not exist"
 
-    bc_definition_folder_path = dest_path.parent / "BlockCommandDefinition"
-    bc_header_path = bc_definition_folder_path / "bc_header.h"
+    bc_definition_folder_path = dest_path.parent / "normal_block_command_definition"
+    bc_header_path = bc_definition_folder_path / "nbc_header.h"
 
     with open(dest_path, "w", encoding="utf-8") as header_file, open(
         bc_header_path, "w", encoding="utf-8"
@@ -20,13 +20,14 @@ def generate(bct_src: list, dest_path: Path, bc_header_header: str) -> None:
  * @note   このコードは自動生成されています！
  */
 #include "block_command_definitions.h"
-#include <src_core/TlmCmd/block_command_loader.h>
-#include <src_core/TlmCmd/block_command_table.h>
-#include <src_core/System/WatchdogTimer/watchdog_timer.h>
-#include <string.h>
+#include <src_core/tlm_cmd/block_command_loader.h>
+#include <src_core/tlm_cmd/block_command_table.h>
+#include <string.h> // for memcpy
 #include "command_definitions.h"
 
-#include "./BlockCommandDefinition/bc_header.h"
+#include "../applications/app_registry.h"
+#include "./telemetry_definitions.h"
+#include "./normal_block_command_definition/nbc_header.h"
 
 /**
  * @brief
@@ -43,8 +44,8 @@ void BC_load_defaults(void)
  * @brief  ブロックコマンド定義
  * @note   このコードは自動生成されています！
  */
-#ifndef BC_HEADER_H_
-#define BC_HEADER_H_
+#ifndef NBC_HEADER_H_
+#define NBC_HEADER_H_
 
 {bc_header_header}
 """[1:]
@@ -67,7 +68,9 @@ void BC_load_defaults(void)
  * @brief  ブロックコマンド定義
  * @note   このコードは自動生成されています！
  */
-#include "bc_header.h"
+#include "nbc_header.h"
+#include "../../applications/app_registry.h"
+#include "../telemetry_definitions.h"
 
 """[1:]
                 )

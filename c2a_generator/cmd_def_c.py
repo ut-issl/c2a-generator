@@ -8,9 +8,11 @@ def generate(src_path: str, dest_path: Path) -> None:
         "int8_t": "CA_PARAM_SIZE_TYPE_1BYTE",
         "int16_t": "CA_PARAM_SIZE_TYPE_2BYTE",
         "int32_t": "CA_PARAM_SIZE_TYPE_4BYTE",
+        "int64_t": "CA_PARAM_SIZE_TYPE_8BYTE",
         "uint8_t": "CA_PARAM_SIZE_TYPE_1BYTE",
         "uint16_t": "CA_PARAM_SIZE_TYPE_2BYTE",
         "uint32_t": "CA_PARAM_SIZE_TYPE_4BYTE",
+        "uint64_t": "CA_PARAM_SIZE_TYPE_8BYTE",
         "float": "CA_PARAM_SIZE_TYPE_4BYTE",
         "double": "CA_PARAM_SIZE_TYPE_8BYTE",
         "raw": "CA_PARAM_SIZE_TYPE_RAW",
@@ -26,7 +28,7 @@ def generate(src_path: str, dest_path: Path) -> None:
  * @brief  コマンド定義
  * @note   このコードは自動生成されています！
  */
-#include <src_core/TlmCmd/command_analyze.h>
+#include <src_core/tlm_cmd/command_analyze.h>
 #include "command_definitions.h"
 #include "command_source.h"
 

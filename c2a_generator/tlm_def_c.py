@@ -6,7 +6,7 @@ from typing import List, Union
 def generate_bit_operation(variables: list, result_type: str = "uint8_t") -> str:
     if len(variables) == 1:
         return variables[0][0]
-    type_to_max_bits = {"uint8_t": 8, "uint16_t": 16, "uint32_t": 32}
+    type_to_max_bits = {"uint8_t": 8, "uint16_t": 16, "uint32_t": 32, "uint64_t": 64}
     max_bits = type_to_max_bits.get(result_type, 8)
     current_bit = max_bits
 
@@ -37,7 +37,8 @@ def generate(src_path: Path, dest_path: Path) -> None:
  * @brief  テレメトリ定義
  * @note   このコードは自動生成されています！
  */
-#include <src_core/TlmCmd/telemetry_frame.h>
+#include <src_core/tlm_cmd/telemetry_frame.h>
+#include <src_core/library/git_revision.h>
 #include "telemetry_definitions.h"
 #include "telemetry_source.h"
 
