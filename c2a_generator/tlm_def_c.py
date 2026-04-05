@@ -6,7 +6,7 @@ from typing import List, Union
 def generate_bit_operation(variables: list, result_type: str = "uint8_t") -> str:
     if len(variables) == 1:
         return variables[0][0]
-    type_to_max_bits = {"uint8_t": 8, "uint16_t": 16, "uint32_t": 32}
+    type_to_max_bits = {"uint8_t": 8, "uint16_t": 16, "uint32_t": 32, "uint64_t": 64}
     max_bits = type_to_max_bits.get(result_type, 8)
     current_bit = max_bits
 

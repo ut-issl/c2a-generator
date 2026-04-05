@@ -8,9 +8,11 @@ conv_type = {
     "int8_t": ("temp_i8", 1),
     "int16_t": ("temp_i16", 2),
     "int32_t": ("temp_i32", 4),
+    "int64_t": ("temp_i64", 4),
     "uint8_t": ("temp_u8", 1),
     "uint16_t": ("temp_u16", 2),
     "uint32_t": ("temp_u32", 4),
+    "uint64_t": ("temp_u64", 4),
     "float": ("temp_f", 4),
     "double": ("temp_d", 8),
 }
