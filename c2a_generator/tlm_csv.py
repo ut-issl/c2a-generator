@@ -58,7 +58,7 @@ Comment,TLM Entry,Onboard Software Info.,,Extraction Info.,,,,Conversion Info.,,
         dest_file.write(
             f"""
 ,Target,{meta[2]},Local Var{"," * (dest_line_len - 4)}
-,PacketID,0x{int(meta[1]):02x},{meta[3]}{"," * (dest_line_len - 4)}
+,PacketID,0x{int(meta[1]) + tlm_id_offset:02x},{meta[3]}{"," * (dest_line_len - 4)}
 ,Enable/Disable,ENABLE{"," * (dest_line_len - 3)}
 ,IsRestricted,{meta[0]}{"," * (dest_line_len - 3)}
 {"," * (dest_line_len - 1)}
