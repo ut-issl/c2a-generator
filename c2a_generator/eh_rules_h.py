@@ -13,9 +13,7 @@ def generate(src_path: str, dest_path: Path, base_id: int, header: str = "") -> 
  */
 #ifndef EVENT_HANDLER_RULES_H_
 #define EVENT_HANDLER_RULES_H_
-
 {header}
-
 /**
  * @enum  EH_RULE_ID
  * @brief EH_Rule の ID
