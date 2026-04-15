@@ -22,7 +22,7 @@ def generate(src_dir_path: Path, dest_dir_path: Path, prefix: str) -> None:
 
 
 def generate_(
-    src_file_path: Path, dest_file_path: Path, dest_calced_data_path: Path
+    src_file_path: Path, dest_file_path: Path, dest_calced_data_path: Path, tlm_id_offset: int = 0
 ) -> None:
     dest_line_len = 18
     dest_line_max = 500
@@ -46,7 +46,7 @@ def generate_(
         dest_calced_data.write(
             f"""
 ,Target,{meta[2]},Local Var{"," * (dest_line_len - 4)}
-,PacketID,0x{int(meta[1]):02x},{meta[3]}{"," * (dest_line_len - 4)}
+,PacketID,0x{int(meta[1]) + tlm_id_offset:02x},{meta[3]}{"," * (dest_line_len - 4)}
 ,Enable/Disable,ENABLE{"," * (dest_line_len - 3)}
 ,IsRestricted,{meta[0]}{"," * (dest_line_len - 3)}
 {"," * (dest_line_len - 1)}
