@@ -2,7 +2,7 @@ import csv
 from pathlib import Path
 
 
-def generate(src_path: str, dest_path: Path) -> None:
+def generate(src_path: str, dest_path: Path, header: str = "") -> None:
     assert dest_path.parent.exists(), f"{dest_path} does not exist"
     with open(src_path, "r", encoding="utf-8") as csv_file, open(
         dest_path, "w", encoding="utf-8"

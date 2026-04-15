@@ -26,11 +26,11 @@ def generate_bit_operation(variables: list, result_type: str = "uint8_t") -> str
     return f"({operation})" if result_type is None else f"({result_type})({operation})"
 
 
-def generate(src_path: Path, dest_path: Path) -> None:
+def generate(src_path: Path, dest_path: Path, header: str = "") -> None:
     assert dest_path.parent.exists(), f"{dest_path} does not exist"
     with open(dest_path, "w", encoding="utf-8") as header_file:
         header_file.write(
-            """
+            f"""
 #pragma section REPRO
 /**
  * @file
@@ -41,6 +41,8 @@ def generate(src_path: Path, dest_path: Path) -> None:
 #include <src_core/library/git_revision.h>
 #include "telemetry_definitions.h"
 #include "telemetry_source.h"
+{header}
+
 
 """[1:]
         )
