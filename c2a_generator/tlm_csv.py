@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 
 
-def generate(src_dir_path: Path, dest_dir_path: Path, prefix: str) -> None:
+def generate(src_dir_path: Path, dest_dir_path: Path, prefix: str, tlm_id_offset: int = 0) -> None:
     # packet_id 小さい順
     src_path_list = sorted(
         (
@@ -18,11 +18,11 @@ def generate(src_dir_path: Path, dest_dir_path: Path, prefix: str) -> None:
         dest_name = prefix + os.path.basename(src_path)
         dest_path = dest_dir_path / dest_name
         dest_calced_data_path = dest_dir_path / "calced_data" / dest_name
-        generate_(src_path, dest_path, dest_calced_data_path)
+        generate_(src_path, dest_path, dest_calced_data_path, tlm_id_offset)
 
 
 def generate_(
-    src_file_path: Path, dest_file_path: Path, dest_calced_data_path: Path, tlm_id_offset: int = 0
+    src_file_path: Path, dest_file_path: Path, dest_calced_data_path: Path, tlm_id_offset: int
 ) -> None:
     dest_line_len = 18
     dest_line_max = 500
