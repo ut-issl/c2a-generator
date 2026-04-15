@@ -2,10 +2,10 @@ import csv
 from pathlib import Path
 
 
-def generate(src_path: str, dest_path: Path) -> None:
+def generate(src_path: str, dest_path: Path, header: str = "") -> None:
     with open(dest_path, "w", encoding="utf-8") as header_file:
         header_file.write(
-            """
+            f"""
 /**
  * @file
  * @brief  テレメトリ定義
@@ -14,8 +14,10 @@ def generate(src_path: str, dest_path: Path) -> None:
 #ifndef TELEMETRY_DEFINITIONS_H_
 #define TELEMETRY_DEFINITIONS_H_
 
+{header}
+
 typedef enum
-{
+{{
 """[1:]
         )
         tlm_codes = []

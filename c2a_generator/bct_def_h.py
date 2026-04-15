@@ -2,12 +2,12 @@ import csv
 from pathlib import Path
 
 
-def generate(bct_src: list, dest_path: Path) -> None:
+def generate(bct_src: list, dest_path: Path, header: str = "") -> None:
     assert dest_path.parent.exists(), f"{dest_path} does not exist"
 
     with open(dest_path, "w", encoding="utf-8") as header_file:
         header_file.write(
-            """
+            f"""
 /**
  * @file
  * @brief  ブロックコマンド定義
@@ -16,9 +16,11 @@ def generate(bct_src: list, dest_path: Path) -> None:
 #ifndef BLOCK_COMMAND_DEFINITIONS_H_
 #define BLOCK_COMMAND_DEFINITIONS_H_
 
+{header}
+
 // 登録されるBlockCommandTableのblock番号を規定
 typedef enum
-{
+{{
 """[1:]
         )
 

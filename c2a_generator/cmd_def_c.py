@@ -2,7 +2,7 @@ import csv
 from pathlib import Path
 
 
-def generate(src_path: str, dest_path: Path) -> None:
+def generate(src_path: str, dest_path: Path, header: str = "") -> None:
     assert dest_path.parent.exists(), f"{dest_path} does not exist"
     conv_type_to_size = {
         "int8_t": "CA_PARAM_SIZE_TYPE_1BYTE",
@@ -21,7 +21,7 @@ def generate(src_path: str, dest_path: Path) -> None:
         dest_path, "w", encoding="utf-8"
     ) as header_file:
         header_file.write(
-            """
+            f"""
 #pragma section REPRO
 /**
  * @file
@@ -31,6 +31,8 @@ def generate(src_path: str, dest_path: Path) -> None:
 #include <src_core/tlm_cmd/command_analyze.h>
 #include "command_definitions.h"
 #include "command_source.h"
+
+{header}
 
 void CA_load_cmd_table(CA_CmdInfo cmd_table[CA_MAX_CMDS])
 {

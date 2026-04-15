@@ -2,17 +2,19 @@ import csv
 from pathlib import Path
 
 
-def generate(src_path: str, dest_path: Path, base_id: int) -> None:
+def generate(src_path: str, dest_path: Path, base_id: int, header: str = "") -> None:
     assert dest_path.parent.exists(), f"{dest_path} does not exist"
     with open(src_path, "r", encoding="utf-8") as csv_file, open(dest_path, "w", encoding="utf-8") as header_file:
         header_file.write(
-            """
+            f"""
 /**
  * @file
  * @brief  EH の Rule 共通ヘッダ
  */
 #ifndef EVENT_HANDLER_RULES_H_
 #define EVENT_HANDLER_RULES_H_
+
+{header}
 
 /**
  * @enum  EH_RULE_ID
@@ -21,7 +23,7 @@ def generate(src_path: str, dest_path: Path, base_id: int) -> None:
  * @note  uint16_t を想定
  */
 typedef enum
-{
+{{
 """[
                 1:
             ]
