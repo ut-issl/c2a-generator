@@ -13,9 +13,7 @@ def generate(src_path: str, dest_path: Path, header: str = "") -> None:
  */
 #ifndef TELEMETRY_DEFINITIONS_H_
 #define TELEMETRY_DEFINITIONS_H_
-
 {header}
-
 typedef enum
 {{
 """[1:]

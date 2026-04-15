@@ -42,8 +42,6 @@ def generate(src_path: Path, dest_path: Path, header: str = "") -> None:
 #include "telemetry_definitions.h"
 #include "telemetry_source.h"
 {header}
-
-
 """[1:]
         )
         # packet_id 小さい順

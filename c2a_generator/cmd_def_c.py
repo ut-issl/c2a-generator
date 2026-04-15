@@ -31,11 +31,9 @@ def generate(src_path: str, dest_path: Path, header: str = "") -> None:
 #include <src_core/tlm_cmd/command_analyze.h>
 #include "command_definitions.h"
 #include "command_source.h"
-
 {header}
-
 void CA_load_cmd_table(CA_CmdInfo cmd_table[CA_MAX_CMDS])
-{
+{{
 """[1:]
         )
         reader = csv.reader(csv_file)

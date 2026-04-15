@@ -15,9 +15,7 @@ def generate(bct_src: list, dest_path: Path, header: str = "") -> None:
  */
 #ifndef BLOCK_COMMAND_DEFINITIONS_H_
 #define BLOCK_COMMAND_DEFINITIONS_H_
-
 {header}
-
 // 登録されるBlockCommandTableのblock番号を規定
 typedef enum
 {{
