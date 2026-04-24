@@ -3,7 +3,36 @@ import os
 from pathlib import Path
 
 
-def generate(src_dir_path: Path, dest_dir_path: Path, prefix: str, tlm_id_offset: int = 0) -> None:
+def is_dr_generation_enabled(src_file_path: Path) -> bool:
+    """
+    設計CSVファイルからDR生成フラグを読み取る
+    1行目の末尾からDR_ENABLE=TRUEまたはTRUEを探す
+    フラグが存在しない場合はデフォルトでFalseを返す
+
+    フォーマット例:
+    - FALSE,13,OBC,local_var,...,DR_ENABLE=TRUE  -> True
+    - FALSE,13,OBC,local_var,...,TRUE            -> True (後方互換性)
+    - FALSE,13,OBC,local_var,...                -> False (デフォルト)
+    """
+    with open(src_file_path, "r", encoding="utf-8") as f:
+        reader = csv.reader(f)
+        meta = next(reader, [])
+
+        # 後ろから検索して、最初に見つかった非空白の値をチェック
+        for i in range(len(meta) - 1, 3, -1):  # インデックス3より後ろから探す
+            value = meta[i].strip().upper()
+            if value:
+                # DR_ENABLE=TRUE形式またはTRUE形式
+                if value == "TRUE" or value == "DR_ENABLE=TRUE":
+                    return True
+                elif value == "FALSE" or value == "DR_ENABLE=FALSE":
+                    return False
+                # それ以外は無視して次を探す
+
+        return False  # デフォルトはFalse
+
+
+def generate(src_dir_path: Path, dest_dir_path: Path, prefix: str, tlm_id_offset: int = 0, only_dr_enabled: bool = False) -> None:
     # packet_id 小さい順
     src_path_list = sorted(
         (
@@ -15,6 +44,11 @@ def generate(src_dir_path: Path, dest_dir_path: Path, prefix: str, tlm_id_offset
     )
 
     for src_path in src_path_list:
+        # DR生成フィルタリング: only_dr_enabled=Trueの場合、DR生成フラグをチェック
+        if only_dr_enabled:
+            if not is_dr_generation_enabled(src_path):
+                continue
+
         dest_name = prefix + os.path.basename(src_path)
         dest_path = dest_dir_path / dest_name
         dest_calced_data_path = dest_dir_path / "calced_data" / dest_name
