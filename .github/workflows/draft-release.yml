@@ -38,7 +38,7 @@ jobs:
           version=$(awk -F\" '/version =/ {print $2}' pyproject.toml)
           echo "::set-output name=project_version::$version"
 
-      - uses: release-drafter/release-drafter@v6
+      - uses: release-drafter/release-drafter@v7
         id: release-drafter
         with:
           config-name: release-drafter.yml
