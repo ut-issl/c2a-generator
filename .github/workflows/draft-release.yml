@@ -27,7 +27,7 @@ jobs:
       RELEASE_DRAFT_BODY: ${{ steps.release-drafter.outputs.body }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           repository: ut-issl/c2a-generator
           ssh-key: ${{ secrets.PRIVATE_REPO_SSH_KEY }}
